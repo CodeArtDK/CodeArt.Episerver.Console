@@ -1,0 +1,66 @@
+﻿Kill
+
+DumpContent
+
+AddFileFromWeb [url] [destinationpath] | [destinationparentid]
+
+BatchUpdateContent
+
+Convert
+
+Grep
+
+Copy
+
+Move
+
+AttachProvider
+
+GenerateContent
+
+RunningTasks
+
+Debug
+
+Diagnosis
+
+Restart
+
+Cache-management
+
+WarmUp
+
+SendToDownload
+
+Where
+
+Memory
+
+
+---
+
+Command piping?!
+
+Special input? Perhaps file-upload?
+Support drag&Drop of stuff? Allow side-bars?
+
+---
+Syntax
+
+keyword [parameters] : Starts new thread running keyword command.
+keyword [parameters]|keyword [parameters] : Starts new thread(s) running the first keyword and then delivering the output as input to the second.
+[threadname] [input]: sends the specific input to the named worker.
+
+
+---
+
+[Command(Keyword="echo",DefaultRoles="WebAdmins,Administrators",Description="")]
+public class EchoCommand : CommandBase{
+	[CommandArgument(Default=true,Description="The text to echo")]
+	public string EchoText{get;set;}
+
+	public void Execute(){
+		...
+	}
+
+}

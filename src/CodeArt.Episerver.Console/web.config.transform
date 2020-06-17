@@ -1,0 +1,7 @@
+<configuration>
+    <episerver.shell>
+        <protectedModules>
+            <add name="CodeArt.Episerver.Console" />
+        </protectedModules>
+    </episerver.shell>
+</configuration>
