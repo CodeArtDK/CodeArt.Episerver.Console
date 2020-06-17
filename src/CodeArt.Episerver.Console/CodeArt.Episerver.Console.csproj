@@ -211,6 +211,7 @@
     <Content Include="modules\_protected\CodeArt.Episerver.Console\Views\Console\Index.cshtml" />
     <Content Include="modules\_protected\CodeArt.Episerver.Console\Web.config" />
     <None Include="modules\_protected\Shell\Shell.zip" />
+    <None Include="Nuget.config" />
     <None Include="packages.config" />
     <None Include="web.config.transform" />
   </ItemGroup>
