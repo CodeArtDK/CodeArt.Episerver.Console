@@ -1,0 +1,59 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+name: $(majorMinorVersion).$(semanticVersion) # $(rev:r) # NOTE: rev resets when the default retention period expires
+
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/CodeArt.Episerver.Console.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  majorMinorVersion: 0.1
+  semanticVersion: $[counter(variables['majorMinorVersion'], 0)]
+
+steps:
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+#- task: VSTest@2
+#  inputs:
+#    platform: '$(buildPlatform)'
+#    configuration: '$(buildConfiguration)'
+
+    # Package a project
+- task: NuGetCommand@2
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/CodeArt.Episerver.Console/CodeArt.Episerver.Console.csproj'
+    versioningScheme: 'byBuildNumber'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '34ed39b4-c631-44b3-82d3-967cc7e3d3f3'
+    allowPackageConflicts: true
