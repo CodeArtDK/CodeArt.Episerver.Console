@@ -29,7 +29,7 @@ namespace CodeArt.Episerver.DevConsole.Core
             foreach(var t in types)
             {
                 var ccd = new ConsoleCommandDescriptor(t);
-
+                //TODO: Make resilient to duplicates?
                 cmdMgr.Commands.Add(ccd.Keyword.ToLower(), ccd);
             }
         }

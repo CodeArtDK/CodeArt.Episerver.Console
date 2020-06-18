@@ -23,13 +23,19 @@ namespace CodeArt.Episerver.DevConsole.Core
 
         public IEnumerable<MenuItem> GetMenuItems()
         {        
-            var developerSection = new SectionMenuItem(GlobalMenuTitle, GlobalMenuLogicalPath)
-            {
-                IsAvailable = request => PrincipalInfo.HasAdminAccess
-            };
+
             var console = CreateUrlMenuItem(ConsoleTitle, ConsolePath, Paths.ToResource(ModuleName, "Console"));
 
-            yield return developerSection;
+            //TODO: Check if DeveloperTools is installed.
+            if(!AppDomain.CurrentDomain.GetAssemblies().Where(a => a.FullName.Contains("EPiServer.DeveloperTools")).Any())
+            {
+                var developerSection = new SectionMenuItem(GlobalMenuTitle, GlobalMenuLogicalPath)
+                {
+                    IsAvailable = request => PrincipalInfo.HasAdminAccess
+                };
+                yield return developerSection;
+            }
+
             yield return console;
         }
 

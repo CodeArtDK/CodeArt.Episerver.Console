@@ -34,8 +34,6 @@ namespace CodeArt.Episerver.DevConsole.Core
                 while (i < source.Length)
                 {
 
-                
-
                     if (source[i] == '|')
                     {
                         //Pipe command

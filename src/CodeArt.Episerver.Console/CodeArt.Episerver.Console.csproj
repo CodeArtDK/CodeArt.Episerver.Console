@@ -173,6 +173,9 @@
   <ItemGroup>
     <Compile Include="Attributes\CommandAttribute.cs" />
     <Compile Include="Attributes\CommandParameterAttribute.cs" />
+    <Compile Include="Commands\AppSettingsCommand.cs" />
+    <Compile Include="Commands\ListenCommand.cs" />
+    <Compile Include="Commands\SitesCommand.cs" />
     <Compile Include="Core\CommandJob.cs" />
     <Compile Include="Core\CommandManager.cs" />
     <Compile Include="Core\CommandStringParser.cs" />

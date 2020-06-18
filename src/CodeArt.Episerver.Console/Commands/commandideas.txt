@@ -1,5 +1,15 @@
 ﻿Kill
 
+Listen
+
+UpdateContent
+
+Cache-clear
+
+FetchUrl
+
+Content Types repository
+
 DumpContent
 
 AddFileFromWeb [url] [destinationpath] | [destinationparentid]
@@ -35,6 +45,8 @@ SendToDownload
 Where
 
 Memory
+
+Look At Cachekey
 
 
 ---

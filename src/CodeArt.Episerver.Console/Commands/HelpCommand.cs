@@ -17,6 +17,8 @@ namespace CodeArt.Episerver.DevConsole.Commands
 
         public string Execute(params string[] parameters)
         {
+            //TODO: Support a specific command in the parameters
+
             //Retrieve a list of commands
             var cmdMgr = ServiceLocator.Current.GetInstance<CommandManager>();
             foreach(var cmd in cmdMgr.Commands.Values)
