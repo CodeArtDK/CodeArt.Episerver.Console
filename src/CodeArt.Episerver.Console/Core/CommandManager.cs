@@ -133,7 +133,7 @@ namespace CodeArt.Episerver.DevConsole.Core
                     ((IConsoleOutputCommand)ecmd.Command).OutputToConsole += new OutputToConsoleHandler((c, s) => { if (s != null) Log.Add(s); });
                 }
 
-                if (ecmd.Command is IInputCommand) (ecmd.Command as IInputCommand).Source = ecommands.Last().Command as IOutputCommand;
+                if (ecmd.Command is IInputCommand && ecommands.Any() && (ecommands.Last().Command is IOutputCommand)) (ecmd.Command as IInputCommand).Source = ecommands.Last().Command as IOutputCommand;
 
                 if(ecommands.Count>0 && !(ecmd.Command is IInputCommand))
                 {

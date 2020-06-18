@@ -12,7 +12,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>CodeArt Command Console</title>
-
+    <link rel="shortcut icon" href="../../util/images/favicon.ico" type="image/x-icon" />
     @Html.Raw(ClientResources.RenderResources("ShellCore"))
     @Html.Raw(ClientResources.RenderResources("ShellWidgets"))
     @Html.Raw(ClientResources.RenderResources("ShellCoreLightTheme"))
@@ -41,7 +41,7 @@
             right: 20px;
             left: 20px;
             overflow-y: auto;
-            padding-top:20px;
+            padding-top: 20px;
             padding-left: 20px;
             font-size: 14px;
             font-family: 'Lucida Console', Arial;
@@ -49,7 +49,7 @@
     </style>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
-<body>
+<body class="Sleek">
     @Html.Raw(Html.ShellInitializationScript())
     @Html.Raw(Html.CreatePlatformNavigationMenu())
     <div id="epi-application" @Html.Raw(Html.ApplyPlatformNavigation())>

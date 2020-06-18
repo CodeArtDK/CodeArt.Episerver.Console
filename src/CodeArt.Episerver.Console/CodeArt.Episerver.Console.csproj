@@ -174,7 +174,9 @@
     <Compile Include="Attributes\CommandAttribute.cs" />
     <Compile Include="Attributes\CommandParameterAttribute.cs" />
     <Compile Include="Commands\AppSettingsCommand.cs" />
+    <Compile Include="Commands\ImportAssetCommand.cs" />
     <Compile Include="Commands\ListenCommand.cs" />
+    <Compile Include="Commands\LoadContentCommand.cs" />
     <Compile Include="Commands\SitesCommand.cs" />
     <Compile Include="Core\CommandJob.cs" />
     <Compile Include="Core\CommandManager.cs" />

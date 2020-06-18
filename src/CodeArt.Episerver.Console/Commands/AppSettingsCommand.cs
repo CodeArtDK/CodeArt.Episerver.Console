@@ -20,21 +20,28 @@ namespace CodeArt.Episerver.DevConsole.Commands
         [CommandParameter]
         public string Key { get; set; }
 
+        [CommandParameter]
+        public string Value { get; set; }
 
         public string Execute(params string[] parameters)
         {
             if (string.IsNullOrEmpty(Key) && parameters.Length > 0) Key = parameters.First();
             if (!string.IsNullOrEmpty(Key))
             {
+                if (Value != null)
+                {
+                    ConfigurationManager.AppSettings.Set(Key, Value);
+                }
                 OnCommandOutput?.Invoke(this, ConfigurationManager.AppSettings[Key]);
                 return $"Done. Appsetting \"{Key}\"=\"{ConfigurationManager.AppSettings[Key]}\".";
+
             }
 
             int cnt = 0;
             
-            foreach (var r in ConfigurationManager.AppSettings)
+            foreach (var r in ConfigurationManager.AppSettings.AllKeys)
             {
-                OnCommandOutput?.Invoke(this, r);
+                OnCommandOutput?.Invoke(this, r+": "+ConfigurationManager.AppSettings[r]);
                 cnt++;
             }
 
