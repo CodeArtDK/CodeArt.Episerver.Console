@@ -1,7 +1,4 @@
-﻿using CodeArt.Episerver.DevConsole;
-using CodeArt.Episerver.DevConsole.Core;
-using CodeArt.Episerver.Models;
-using EPiServer.Security;
+﻿using CodeArt.Episerver.DevConsole.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,41 +6,30 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace CodeArt.Episerver.Controllers
+namespace CodeArt.Episerver.DevConsole.Controllers
 {
-    
-    public class ConsoleController : Controller
+
+
+    //[Authorize(Roles ="CLIUsers")]
+    public class CLIController : Controller
     {
         private readonly CommandManager _manager;
 
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
-            
-            if (!PrincipalInfo.HasAdminAccess)
-            {
-                throw new UnauthorizedAccessException();
-            }
-
             base.OnAuthorization(filterContext);
+            if (!User.IsInRole("CLIUsers")) throw (new UnauthorizedAccessException("Only available with proper access token"));
         }
 
-
-        public ConsoleController(CommandManager cman)
+        public CLIController(CommandManager cman)
         {
             _manager = cman;
         }
 
-
-        public ActionResult Index()
-        {
-            return View(new ConsoleModel());
-        }
-
         public ActionResult FetchLog(int LastLogNo)
         {
-            //TODO: Support multiple logs (per user? or per session?)
             _manager.UpdateJobs();
-            var lst = _manager.Log.Skip(LastLogNo).Take(100).Select(s => s.Replace("\t","&nbsp;&nbsp;")).ToList();
+            var lst = _manager.Log.Skip(LastLogNo).Take(100).ToList();
             return Json(new { LastNo = LastLogNo + lst.Count, LogItems = lst }, JsonRequestBehavior.AllowGet);
         }
 
@@ -52,6 +38,11 @@ namespace CodeArt.Episerver.Controllers
         {
             _manager.ExecuteCommand(command);
             return Json(new { });
+        }
+
+        public ActionResult Index()
+        {
+            return Content("Test");
         }
     }
 }

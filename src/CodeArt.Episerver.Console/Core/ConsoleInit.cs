@@ -5,6 +5,7 @@ using CodeArt.Episerver.DevConsole.Interfaces;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
+using EPiServer.Security;
 
 namespace CodeArt.Episerver.DevConsole.Core
 {
@@ -16,6 +17,14 @@ namespace CodeArt.Episerver.DevConsole.Core
         {
             //Add initialization logic, this method is called once after CMS has been initialized
             context.InitComplete += Context_InitComplete;
+
+            //Register route
+
+
+            //Register Virtual Role for CLI
+            var virtualRoleRepository=ServiceLocator.Current.GetInstance<IVirtualRoleRepository>();
+            virtualRoleRepository.Register("CLIUsers", new CLIUserRole());
+
         }
 
         private void Context_InitComplete(object sender, EventArgs e)

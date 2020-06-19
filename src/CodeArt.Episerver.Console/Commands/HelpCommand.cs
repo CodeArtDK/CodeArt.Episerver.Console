@@ -24,7 +24,7 @@ namespace CodeArt.Episerver.DevConsole.Commands
             foreach(var cmd in cmdMgr.Commands.Values)
             {
                 OutputToConsole?.Invoke(this, cmd.Keyword);
-                if(cmd.Info.Description!=null)  OutputToConsole?.Invoke(this, "&nbsp;&nbsp;"+cmd.Info.Description);
+                if(cmd.Info.Description!=null)  OutputToConsole?.Invoke(this, "\t"+cmd.Info.Description);
             }
             return null;
         }

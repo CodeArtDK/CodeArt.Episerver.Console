@@ -178,6 +178,8 @@
     <Compile Include="Commands\ListenCommand.cs" />
     <Compile Include="Commands\LoadContentCommand.cs" />
     <Compile Include="Commands\SitesCommand.cs" />
+    <Compile Include="Controllers\CLIController.cs" />
+    <Compile Include="Core\CLIUserRole.cs" />
     <Compile Include="Core\CommandJob.cs" />
     <Compile Include="Core\CommandManager.cs" />
     <Compile Include="Core\CommandStringParser.cs" />
