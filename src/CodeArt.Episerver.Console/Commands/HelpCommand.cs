@@ -15,17 +15,36 @@ namespace CodeArt.Episerver.DevConsole.Commands
     {
         public event OutputToConsoleHandler OutputToConsole;
 
+        [CommandParameter]
+        public string Command { get; set; }
+
         public string Execute(params string[] parameters)
         {
             //TODO: Support a specific command in the parameters
-
-            //Retrieve a list of commands
+            if (string.IsNullOrEmpty(Command) && parameters.Length > 0) Command = parameters.First();
             var cmdMgr = ServiceLocator.Current.GetInstance<CommandManager>();
-            foreach(var cmd in cmdMgr.Commands.Values)
+
+            if (!string.IsNullOrEmpty(Command))
             {
-                OutputToConsole?.Invoke(this, cmd.Keyword);
-                if(cmd.Info.Description!=null)  OutputToConsole?.Invoke(this, "\t"+cmd.Info.Description);
+                var cmd = cmdMgr.Commands[Command];
+                OutputToConsole?.Invoke(this, "Command: " + cmd.Keyword);
+                OutputToConsole?.Invoke(this, "Description: " + cmd.Info.Description);
+                OutputToConsole?.Invoke(this, "Parameters:");
+                foreach( var p in cmd.Parameters.Keys)
+                {
+                    OutputToConsole?.Invoke(this, $"\t{cmd.Parameters[p].PropertyType.Name} {p}");
+
+                }
+            } else
+            {
+                //Retrieve a list of commands
+                foreach (var cmd in cmdMgr.Commands.Values.OrderBy(cm => cm.Keyword))
+                {
+                    OutputToConsole?.Invoke(this, cmd.Keyword);
+                    if (cmd.Info.Description != null) OutputToConsole?.Invoke(this, "\t" + cmd.Info.Description);
+                }
             }
+            
             return null;
         }
     }

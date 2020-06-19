@@ -20,10 +20,13 @@ namespace CodeArt.Episerver.DevConsole.CLI
             var q = new RestRequest("FetchLog", Method.GET);
             q.AddQueryParameter("LastLogNo", LastLog.ToString());
             var r = Client.Execute<CLIResponse>(q);
+            var defcolor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
             foreach(var s in r.Data.LogItems)
             {
                 Console.WriteLine(s);
             }
+            Console.ForegroundColor = defcolor;
             return r.Data.LastNo;
         }
 

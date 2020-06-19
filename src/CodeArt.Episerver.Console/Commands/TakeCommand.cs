@@ -15,7 +15,9 @@ namespace CodeArt.Episerver.DevConsole.Commands
 
         public event CommandOutput OnCommandOutput;
 
+        [CommandParameter]
         public int Count { get; set; }
+
         private int _taken;
 
         public string Execute(params string[] parameters)

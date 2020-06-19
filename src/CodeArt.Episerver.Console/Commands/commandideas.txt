@@ -49,6 +49,16 @@ Memory
 Look At Cachekey
 
 
+Dynamic Data Store
+
+Content Type Details
+
+Download / Upload (from CLI / UI?)
+
+ChangeLog
+
+Error log (listen to it?)
+
 ---
 
 Command piping?!
