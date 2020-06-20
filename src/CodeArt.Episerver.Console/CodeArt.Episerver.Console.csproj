@@ -174,11 +174,13 @@
     <Compile Include="Attributes\CommandAttribute.cs" />
     <Compile Include="Attributes\CommandParameterAttribute.cs" />
     <Compile Include="Commands\AppSettingsCommand.cs" />
+    <Compile Include="Commands\AssembliesCommand.cs" />
     <Compile Include="Commands\ImportAssetCommand.cs" />
     <Compile Include="Commands\ListTypesCommand.cs" />
     <Compile Include="Commands\ListenCommand.cs" />
     <Compile Include="Commands\LoadContentCommand.cs" />
     <Compile Include="Commands\SitesCommand.cs" />
+    <Compile Include="Commands\SortCommand.cs" />
     <Compile Include="Controllers\CLIController.cs" />
     <Compile Include="Core\CLIUserRole.cs" />
     <Compile Include="Core\CommandJob.cs" />

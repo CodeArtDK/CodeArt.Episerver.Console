@@ -21,9 +21,14 @@ namespace CodeArt.Episerver.DevConsole.Core
 
 
         public List<string> Log { get; set; }
+
+        //Support multiple logs
+
+
         public List<CommandJob> ActiveJobs { get; set; }
+
+
         private Random _rand = new Random();
-        
 
         public void UpdateJobs()
         {
@@ -105,7 +110,12 @@ namespace CodeArt.Episerver.DevConsole.Core
                                 if (pi.PropertyType == typeof(string))
                                 {
                                     pi.SetValue(cmd, parts[i + 1]); //TODO: Support other types than string
-                                } else if(pi.PropertyType == typeof(int))
+                                }
+                                else if (pi.PropertyType == typeof(bool))
+                                {
+                                    pi.SetValue(cmd, bool.Parse(parts[i + 1]));
+                                }
+                                else if(pi.PropertyType == typeof(int))
                                 {
                                     pi.SetValue(cmd, int.Parse(parts[i + 1]));
                                 } else if (pi.PropertyType.IsEnum)
@@ -123,8 +133,6 @@ namespace CodeArt.Episerver.DevConsole.Core
                         }
                     }
 
-                    //Execute command
-                    //Log.Add(cmd.Execute(parts.Skip(1).ToArray()));
                 }
                 else Log.Add("Unknown Command");
 

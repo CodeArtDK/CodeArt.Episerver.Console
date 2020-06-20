@@ -2,6 +2,10 @@
 
 Listen
 
+Assemblies
+
+Server-file-management
+
 UpdateContent
 
 Cache-clear
@@ -58,6 +62,20 @@ Download / Upload (from CLI / UI?)
 ChangeLog
 
 Error log (listen to it?)
+
+Start (special keyword, starts entire command interpreter in new thread)
+
+https://hotchocolate.io/docs/introduction
+
+
+
+---
+Single-sessions
+
+RunCommand returns command-output
+
+More detailed commands in log.
+
 
 ---
 

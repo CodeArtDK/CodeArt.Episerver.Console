@@ -10,8 +10,7 @@ namespace CodeArt.Episerver.DevConsole.Commands
     [Command(Keyword ="hello")]
     public class HelloWorldCommand : IConsoleCommand
     {
-        //help text?
-        //Parameter - maybe attribute or validation? Way to fetch array of all parameters?
+        
         [CommandParameter]
         public string Name { get; set; }
 
