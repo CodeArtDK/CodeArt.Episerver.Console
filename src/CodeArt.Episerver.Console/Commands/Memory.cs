@@ -16,9 +16,17 @@ namespace CodeArt.Episerver.DevConsole.Commands
 
         public string Execute(params string[] parameters)
         {
-            Process p = Process.GetCurrentProcess();
 
-            return "Private Memory Used: " + p.PrivateMemorySize64;
+            Process p = Process.GetCurrentProcess();
+            long mem = p.PrivateMemorySize64;
+
+            if (parameters.Length > 0)
+            {
+                if (parameters.First() == "mb") mem = (int)mem / (1024 * 1024);
+            }
+
+
+            return "Private Memory Used: " + mem + " "+parameters.FirstOrDefault();
         }
     }
 }

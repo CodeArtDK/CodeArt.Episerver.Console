@@ -39,7 +39,13 @@
 
         .logText{
             color:green;
-            line-height:0em;
+            margin-bottom:0px;
+            margin-top:0px;
+        }
+
+        .myText{
+            margin-bottom:0px;
+            margin-top:0px;
         }
 
         .mainConsole {
@@ -80,7 +86,7 @@
 
                var cmd = $('#command').val();
                cmdhistory.push(cmd);
-               $('#log').append('<p>command&gt;'+cmd + '</p>');
+               $('#log').append('<p class="myText">command&gt;'+cmd + '</p>');
                $('#command').val('');
                $.post('@EPiServer.Shell.Paths.ToResource("CodeArt.Episerver.DevConsole","Console/RunCommand/")', { command: cmd });
            } else if (e.keyCode == 38) {
