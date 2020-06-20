@@ -181,6 +181,7 @@
     <Compile Include="Attributes\CommandParameterAttribute.cs" />
     <Compile Include="Commands\AppSettingsCommand.cs" />
     <Compile Include="Commands\AssembliesCommand.cs" />
+    <Compile Include="Commands\EchoCommand.cs" />
     <Compile Include="Commands\ImportAssetCommand.cs" />
     <Compile Include="Commands\ListTypesCommand.cs" />
     <Compile Include="Commands\ListenCommand.cs" />
@@ -199,7 +200,7 @@
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\ListCommand.cs" />
     <Compile Include="Commands\Magic8BallCommand.cs" />
-    <Compile Include="Commands\Memory.cs" />
+    <Compile Include="Commands\MemoryCommand.cs" />
     <Compile Include="Commands\NotifyCommand.cs" />
     <Compile Include="Commands\SelectCommand.cs" />
     <Compile Include="Commands\SkipCommand.cs" />

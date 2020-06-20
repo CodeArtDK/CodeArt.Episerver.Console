@@ -80,7 +80,8 @@
 
     </div>
     <script>
-       var cmdhistory = [];
+        var cmdhistory = [];
+        var sessionid = null;
        $("#command").on('keyup', function (e) {
            if (e.keyCode == 13) {
 
@@ -88,7 +89,7 @@
                cmdhistory.push(cmd);
                $('#log').append('<p class="myText">command&gt;'+cmd + '</p>');
                $('#command').val('');
-               $.post('@EPiServer.Shell.Paths.ToResource("CodeArt.Episerver.DevConsole","Console/RunCommand/")', { command: cmd });
+               $.post('@EPiServer.Shell.Paths.ToResource("CodeArt.Episerver.DevConsole","Console/RunCommand/")', { command: cmd,Session:sessionid });
            } else if (e.keyCode == 38) {
                //Arrow up - if val is empty fill in last typed command. Otherwise it may be navigating in autocomplete?
                $('#command').val(cmdhistory[cmdhistory.length]);
@@ -99,8 +100,9 @@
        });
        var last = 0;
        function RefreshLog() {
-           $.getJSON('@EPiServer.Shell.Paths.ToResource("CodeArt.Episerver.DevConsole","Console/FetchLog/")', { LastLogNo: last }, function (data) {
+           $.getJSON('@EPiServer.Shell.Paths.ToResource("CodeArt.Episerver.DevConsole","Console/FetchLog/")', { LastLogNo: last, Session:sessionid }, function (data) {
                last = data.LastNo;
+               session = data.Session;
                $.each(data.LogItems, function (idx, val) {
                    $('#log').append('<p class="logText">'+val + '</p>');
                })

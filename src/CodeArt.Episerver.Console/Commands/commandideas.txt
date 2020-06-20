@@ -52,6 +52,9 @@ Memory
 
 Look At Cachekey
 
+Projects
+
+Tasks
 
 Dynamic Data Store
 
@@ -82,7 +85,7 @@ UI Control bar. With download link to CLI, about-box, pop-up overviews and so on
 
 
 ---
-Single-sessions
+Single-sessions - divide log
 
 RunCommand returns command-output
 

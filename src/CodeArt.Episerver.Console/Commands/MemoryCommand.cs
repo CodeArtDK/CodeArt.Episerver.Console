@@ -9,10 +9,9 @@ using System.Threading.Tasks;
 
 namespace CodeArt.Episerver.DevConsole.Commands
 {
-    [Command(Keyword = "memory")]
-    public class Memory : IConsoleCommand
+    [Command(Keyword = "memory", Description ="Returns the amount of used memory", Syntax ="memory [kb|mb|gb]")]
+    public class MemoryCommand : IConsoleCommand
     {
-        public string Help => "";
 
         public string Execute(params string[] parameters)
         {

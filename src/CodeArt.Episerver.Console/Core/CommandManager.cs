@@ -20,7 +20,7 @@ namespace CodeArt.Episerver.DevConsole.Core
         public Dictionary<string,ConsoleCommandDescriptor> Commands { get; set; }
 
 
-        public List<string> Log { get; set; }
+        public Dictionary<string,List<CommandLog>> Log { get; set; }
 
         //Support multiple logs
 
@@ -45,12 +45,44 @@ namespace CodeArt.Episerver.DevConsole.Core
             ActiveJobs.RemoveAll(cj => cj.Thread.ThreadState == ThreadState.Stopped);
         }
 
+
+        protected void CleanUp()
+        {
+            List<string> toRemove = new List<string>();
+            //Clean up old logs
+            foreach(var k in Log.Keys)
+            {
+                if (Log[k].Last().Time > DateTime.Now.AddDays(1)) toRemove.Add(k); 
+            }
+            foreach (var k in toRemove) Log.Remove(k);
+        }
+
+        protected List<CommandLog> NewSession(string sessionID)
+        {
+            if (Log.ContainsKey(sessionID)) return Log[sessionID];
+            var log = new List<CommandLog>();
+            Log.Add(sessionID, log);
+            log.Add(new CommandLog("System", $"Episerver {typeof(EPiServer.Core.ContentReference).Assembly.GetName().Version.ToString()} loaded and ready."));
+            return log;
+        }
+
+        protected void AddLogToSession(string session, CommandLog logItem)
+        {
+            var log = NewSession(session);
+            log.Add(logItem);
+        }
+
+        public IEnumerable<CommandLog> GetLogs(string session,int Skip)
+        {
+            var log = NewSession(session);
+            return log.Skip(Skip);
+        }
+
         public CommandManager()
         {
             Commands = new Dictionary<string, ConsoleCommandDescriptor>();
             ActiveJobs = new List<CommandJob>();
-            Log = new List<string>();
-            Log.Add($"Episerver {typeof(EPiServer.Core.ContentReference).Assembly.GetName().Version.ToString()} loaded and ready.");
+            Log = new Dictionary<string, List<CommandLog>>();
         }
 
         public static string[] SplitArguments(string commandLine)
@@ -77,7 +109,7 @@ namespace CodeArt.Episerver.DevConsole.Core
         }
 
 
-        public void ExecuteCommand(string command)
+        public void ExecuteCommand(string command, string session)
         {
             var commands = command.Split('|').Where(p => p != "").ToArray();
 
@@ -124,7 +156,7 @@ namespace CodeArt.Episerver.DevConsole.Core
                                 }
                             } else 
                             {
-                                Log.Add("Unrecognized parameter: " + parts[i]);
+                                AddLogToSession(session, new CommandLog("System", "Unrecognized parameter"));
                             }
                         }
                         else
@@ -134,22 +166,22 @@ namespace CodeArt.Episerver.DevConsole.Core
                     }
 
                 }
-                else Log.Add("Unknown Command");
+                else AddLogToSession(session,new CommandLog("System","Unknown Command"));
 
                 if(ecmd.Command is IConsoleOutputCommand)
                 {
-                    ((IConsoleOutputCommand)ecmd.Command).OutputToConsole += new OutputToConsoleHandler((c, s) => { if (s != null) Log.Add(s); });
+                    ((IConsoleOutputCommand)ecmd.Command).OutputToConsole += new OutputToConsoleHandler((c, s) => { if (s != null) AddLogToSession(session,new CommandLog(c.GetType().Name,s)); });
                 }
 
                 if (ecmd.Command is IInputCommand && ecommands.Any() && (ecommands.Last().Command is IOutputCommand)) (ecmd.Command as IInputCommand).Source = ecommands.Last().Command as IOutputCommand;
 
                 if(ecommands.Count>0 && !(ecmd.Command is IInputCommand))
                 {
-                    Log.Add("You cannot pipe content to that command");
+                    AddLogToSession(session, new CommandLog("System", "You cannot pipe content to that command"));
                     return;
                 } else if(commands.Length>1 && ecommands.Count==0 && !(ecmd.Command is IOutputCommand))
                 {
-                    Log.Add("You cannot pipe content from that command");
+                    AddLogToSession(session, new CommandLog("System", "You cannot pipe content from that command"));
                     return;
                 }
                 ecommands.Add(ecmd);
@@ -161,7 +193,8 @@ namespace CodeArt.Episerver.DevConsole.Core
             foreach(var ec in ecommands)
             {
                 var exec = ec.Command.Execute(ec.Parameters);
-                if(!string.IsNullOrEmpty(exec))    Log.Add(exec);
+                if(!string.IsNullOrEmpty(exec))     AddLogToSession(session, new CommandLog(ec.Command.GetType().Name, exec));
+
             }
 
         }

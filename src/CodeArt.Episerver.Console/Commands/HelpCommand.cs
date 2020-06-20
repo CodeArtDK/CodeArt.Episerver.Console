@@ -29,6 +29,7 @@ namespace CodeArt.Episerver.DevConsole.Commands
                 var cmd = cmdMgr.Commands[Command];
                 OutputToConsole?.Invoke(this, "Command: " + cmd.Keyword);
                 OutputToConsole?.Invoke(this, "Description: " + cmd.Info.Description);
+                if (cmd.Info.Syntax != null) OutputToConsole?.Invoke(this,"Syntax: " + cmd.Info.Syntax);
                 OutputToConsole?.Invoke(this, "Parameters:");
                 foreach( var p in cmd.Parameters.Keys)
                 {

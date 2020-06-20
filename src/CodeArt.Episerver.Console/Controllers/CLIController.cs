@@ -26,18 +26,20 @@ namespace CodeArt.Episerver.DevConsole.Controllers
             _manager = cman;
         }
 
-        public ActionResult FetchLog(int LastLogNo)
+        public ActionResult FetchLog(int LastLogNo, string session = null)
         {
+            if (session == null) session = Guid.NewGuid().ToString();
             _manager.UpdateJobs();
-            var lst = _manager.Log.Skip(LastLogNo).Take(100).ToList();
-            return Json(new { LastNo = LastLogNo + lst.Count, LogItems = lst }, JsonRequestBehavior.AllowGet);
+            var lst = _manager.GetLogs(session, LastLogNo).Take(100).ToList();
+            return Json(new { LastNo = LastLogNo + lst.Count, LogItems = lst, Session = session }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public ActionResult RunCommand(string command)
+        public ActionResult RunCommand(string command, string session = null)
         {
-            _manager.ExecuteCommand(command);
-            return Json(new { });
+            if (session == null) session = Guid.NewGuid().ToString();
+            _manager.ExecuteCommand(command, session);
+            return Json(new { Session = session }); //TODO: Support download
         }
 
         public ActionResult Index()

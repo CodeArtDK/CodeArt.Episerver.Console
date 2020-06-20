@@ -14,14 +14,17 @@ namespace CodeArt.Episerver.DevConsole.CLI
 
         private static RestClient Client;
 
+        private static string Session;
 
         static int FetchLatest(int LastLog)
         {
             var q = new RestRequest("FetchLog", Method.GET);
             q.AddQueryParameter("LastLogNo", LastLog.ToString());
+            if (Session != null) q.AddQueryParameter("session", Session);
             var r = Client.Execute<CLIResponse>(q);
             var defcolor = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Yellow;
+            Session = r.Data.Session;
             foreach(var s in r.Data.LogItems)
             {
                 Console.WriteLine(s);
@@ -34,7 +37,9 @@ namespace CodeArt.Episerver.DevConsole.CLI
         {
             var q = new RestRequest("RunCommand", Method.POST);
             q.AddParameter("command", Command);
-            var r = Client.Execute(q);
+            q.AddParameter("session", Session);
+            var r = Client.Execute<dynamic>(q);
+            if (Session == null) Session = r.Data.Session;
         }
 
         static void MainLoop()

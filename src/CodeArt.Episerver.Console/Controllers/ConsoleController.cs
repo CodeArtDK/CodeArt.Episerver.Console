@@ -39,19 +39,20 @@ namespace CodeArt.Episerver.Controllers
             return View(new ConsoleModel());
         }
 
-        public ActionResult FetchLog(int LastLogNo)
+        public ActionResult FetchLog(int LastLogNo, string session=null)
         {
-            //TODO: Support multiple logs (per user? or per session?)
+            if (session == null) session = Guid.NewGuid().ToString();
             _manager.UpdateJobs();
-            var lst = _manager.Log.Skip(LastLogNo).Take(100).Select(s => s.Replace("\t","&nbsp;&nbsp;")).ToList();
-            return Json(new { LastNo = LastLogNo + lst.Count, LogItems = lst }, JsonRequestBehavior.AllowGet);
+            var lst = _manager.GetLogs(session,LastLogNo).Take(100).ToList();
+            return Json(new { LastNo = LastLogNo + lst.Count, LogItems = lst.Select(l => l.ToString().Replace("\t","&nbsp;&nbsp;")).ToList(), Session=session }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public ActionResult RunCommand(string command)
+        public ActionResult RunCommand(string command, string session=null)
         {
-            _manager.ExecuteCommand(command);
-            return Json(new { });
+            if (session == null) session = Guid.NewGuid().ToString();
+            _manager.ExecuteCommand(command,session);
+            return Json(new { Session = session }); //TODO: Support download
         }
     }
 }
