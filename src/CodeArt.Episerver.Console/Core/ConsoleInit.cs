@@ -18,7 +18,7 @@ namespace CodeArt.Episerver.DevConsole.Core
             //Add initialization logic, this method is called once after CMS has been initialized
             context.InitComplete += Context_InitComplete;
 
-            //Register route
+            //TODO: Register route
 
 
             //Register Virtual Role for CLI

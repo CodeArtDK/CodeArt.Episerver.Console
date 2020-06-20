@@ -67,6 +67,18 @@ Start (special keyword, starts entire command interpreter in new thread)
 
 https://hotchocolate.io/docs/introduction
 
+Create Personal Access Token. / List tokens //Delete Token
+
+CreateContent type, parent | SetProperty name value (multiple)| SaveContent (Publish?) | Loadcontent (from ref) |DeleteContent
+
+Foreach (pipes each element in a list)
+
+
+Autocomplete in the UI (after pipe or at newline, suggest commands. After command suggest parameters)
+
+UI Control bar. With download link to CLI, about-box, pop-up overviews and so on.
+
+
 
 
 ---
@@ -75,6 +87,10 @@ Single-sessions
 RunCommand returns command-output
 
 More detailed commands in log.
+
+---
+
+Download CLI from episerver
 
 
 ---

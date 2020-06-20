@@ -23,6 +23,8 @@ namespace CodeArt.Episerver.DevConsole.Commands
             if (parameters.Length > 0)
             {
                 if (parameters.First() == "mb") mem = (int)mem / (1024 * 1024);
+                else if (parameters.First() == "gb") mem = (int)mem / (1024 * 1024 * 1024);
+                else if (parameters.First() == "kb") mem = (int)mem / (1024);
             }
 
 

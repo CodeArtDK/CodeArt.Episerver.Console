@@ -171,7 +171,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccessTokens\AccessToken.cs" />
+    <Compile Include="AccessTokens\AccessTokenStore.cs" />
+    <Compile Include="AccessTokens\CreateAccessTokenCommand.cs" />
+    <Compile Include="AccessTokens\ListAccessTokensCommand.cs" />
+    <Compile Include="AccessTokens\RemoveAccessTokenCommand.cs" />
     <Compile Include="Attributes\CommandAttribute.cs" />
+    <Compile Include="Attributes\CommandGroups.cs" />
     <Compile Include="Attributes\CommandParameterAttribute.cs" />
     <Compile Include="Commands\AppSettingsCommand.cs" />
     <Compile Include="Commands\AssembliesCommand.cs" />

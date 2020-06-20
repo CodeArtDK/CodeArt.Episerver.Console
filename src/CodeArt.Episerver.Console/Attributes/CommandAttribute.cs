@@ -9,6 +9,8 @@ namespace CodeArt.Episerver.DevConsole.Attributes
     {
         public string Keyword { get; set; }
 
+        public string Group { get; set; }
+
         public string Syntax { get; set; }
 
         public string Description { get; set; }

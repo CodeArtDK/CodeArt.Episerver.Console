@@ -1,7 +1,9 @@
-﻿using EPiServer.Security;
+﻿using CodeArt.Episerver.DevConsole.AccessTokens;
+using EPiServer.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,9 +15,14 @@ namespace CodeArt.Episerver.DevConsole.Core
     {
         public override bool IsInVirtualRole(IPrincipal principal, object context)
         {
-            if (HttpContext.Current.Request["token"] == "test") return true; //TODO: Make optional header that looks up an Access token in a database.
-
-            else return false;
+            var header = HttpContext.Current.Request.Headers["Authorization"];
+            if (string.IsNullOrEmpty(header)) return false;
+            if (!header.StartsWith("Bearer ")) return false;
+            string token = header.Substring(7);
+            AccessTokenStore store = new AccessTokenStore();
+            var at=store.LoadToken(token);
+            if (at == null) return false;
+            else return true;
         }
     }
 }

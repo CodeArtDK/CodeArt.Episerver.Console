@@ -71,7 +71,7 @@ namespace CodeArt.Episerver.DevConsole.CLI
             Token = args[1];
 
             Client = new RestClient(Endpoint);
-            Client.AddDefaultQueryParameter("Token", Token);
+            Client.AddDefaultHeader("Authorization", "Bearer " + Token);
 
             var req = new RestRequest("Index", Method.GET);
             var resp = Client.Execute(req);
