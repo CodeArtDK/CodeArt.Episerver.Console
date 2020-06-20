@@ -10,13 +10,15 @@ using System.Threading.Tasks;
 
 namespace CodeArt.Episerver.DevConsole.Commands
 {
-    [Command(Keyword = "clear")]
+    [Command(Keyword = "clear", Description ="Clears the log for this session")]
     public class ClearCommand : IConsoleCommand
     {
         public string Execute(params string[] parameters)
         {
             var man = ServiceLocator.Current.GetInstance<CommandManager>();
             man.Log.Clear();
+            //TODO: Figure out how to notify log to clear
+
                 
             return "Log cleared";
         }

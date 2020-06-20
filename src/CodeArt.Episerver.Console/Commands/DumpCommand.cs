@@ -12,7 +12,6 @@ namespace CodeArt.Episerver.DevConsole.Commands
     [Command(Keyword = "dump")]
     public class DumpCommand : IInputCommand, IConsoleOutputCommand
     {
-        public IOutputCommand Source { get; set; }
 
         public event OutputToConsoleHandler OutputToConsole;
 
@@ -21,11 +20,6 @@ namespace CodeArt.Episerver.DevConsole.Commands
 
         public string Execute(params string[] parameters)
         {
-            if (Source != null)
-            {
-                Source.OnCommandOutput += Source_OnCommandOutput;
-            }
-
             return string.Empty;
         }
 
@@ -41,6 +35,14 @@ namespace CodeArt.Episerver.DevConsole.Commands
             } else  OutputToConsole?.Invoke(this, output?.ToString());
             
             //TODO: Support objects to show like tables?
+        }
+
+        public void Initialize(IOutputCommand Source, params string[] parameters)
+        {
+            if (Source != null)
+            {
+                Source.OnCommandOutput += Source_OnCommandOutput;
+            }
         }
     }
 

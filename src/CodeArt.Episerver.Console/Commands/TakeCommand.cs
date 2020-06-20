@@ -11,7 +11,6 @@ namespace CodeArt.Episerver.DevConsole.Commands
     [Command(Keyword = "take")]
     public class TakeCommand : IOutputCommand, IInputCommand
     {
-        public IOutputCommand Source { get; set; }
 
         public event CommandOutput OnCommandOutput;
 
@@ -22,12 +21,7 @@ namespace CodeArt.Episerver.DevConsole.Commands
 
         public string Execute(params string[] parameters)
         {
-            _taken = 0;
-            if (parameters.Length == 1) Count = int.Parse(parameters[0]);
-            if (Source != null)
-            {
-                Source.OnCommandOutput += Source_OnCommandOutput;
-            }
+            
 
             return string.Empty;
         }
@@ -38,6 +32,16 @@ namespace CodeArt.Episerver.DevConsole.Commands
             {
                 OnCommandOutput?.Invoke(this, output);
                 _taken++;
+            }
+        }
+
+        public void Initialize(IOutputCommand Source, params string[] parameters)
+        {
+            _taken = 0;
+            if (parameters.Length == 1) Count = int.Parse(parameters[0]);
+            if (Source != null)
+            {
+                Source.OnCommandOutput += Source_OnCommandOutput;
             }
         }
     }

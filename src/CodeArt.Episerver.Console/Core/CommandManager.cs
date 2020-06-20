@@ -173,7 +173,8 @@ namespace CodeArt.Episerver.DevConsole.Core
                     ((IConsoleOutputCommand)ecmd.Command).OutputToConsole += new OutputToConsoleHandler((c, s) => { if (s != null) AddLogToSession(session,new CommandLog(c.GetType().Name,s)); });
                 }
 
-                if (ecmd.Command is IInputCommand && ecommands.Any() && (ecommands.Last().Command is IOutputCommand)) (ecmd.Command as IInputCommand).Source = ecommands.Last().Command as IOutputCommand;
+                if (ecmd.Command is IInputCommand && ecommands.Any() && (ecommands.Last().Command is IOutputCommand)) 
+                    (ecmd.Command as IInputCommand).Initialize(ecommands.Last().Command as IOutputCommand, ecmd.Parameters);
 
                 if(ecommands.Count>0 && !(ecmd.Command is IInputCommand))
                 {
@@ -186,15 +187,23 @@ namespace CodeArt.Episerver.DevConsole.Core
                 }
                 ecommands.Add(ecmd);
             }
-            //Chain them togetehr
-            
+     
+
             //Execute
-            ecommands.Reverse();
+
+            //ecommands.Reverse();
             foreach(var ec in ecommands)
             {
-                var exec = ec.Command.Execute(ec.Parameters);
-                if(!string.IsNullOrEmpty(exec))     AddLogToSession(session, new CommandLog(ec.Command.GetType().Name, exec));
-
+                try
+                {
+                    var exec = ec.Command.Execute(ec.Parameters);
+                    if (!string.IsNullOrEmpty(exec)) AddLogToSession(session, new CommandLog(ec.Command.GetType().Name, exec));
+                
+                } catch(Exception exc)
+                {
+                    AddLogToSession(session, new CommandLog(ec.Command.GetType().Name, exc.Message));
+                    //TODO: Logging?
+                }
             }
 
         }

@@ -12,7 +12,6 @@ namespace CodeArt.Episerver.DevConsole.Commands
     [Command(Keyword = "filter", Description = "Filters objects parsed in and only returns those matching the requirements.")]
     public class FilterCommand : IOutputCommand, IInputCommand
     {
-        public IOutputCommand Source { get; set; }
 
         public event CommandOutput OnCommandOutput;
 
@@ -25,23 +24,14 @@ namespace CodeArt.Episerver.DevConsole.Commands
 
         public string Execute(params string[] parameters)
         {
-            //propertyname EQUAL CONTAINS MATCH NOTEQUAL GT LT value
-            if(Source!=null) Source.OnCommandOutput += Source_OnCommandOutput;
 
-            if (parameters.Length == 3)
-            {
-                Property = parameters[0];
-                Operator = (Operators)Enum.Parse(typeof(Operators), parameters[1]);
-                Value = parameters[2];
-            }
-            //TODO: Validation
             return null;
         }
 
         private void Source_OnCommandOutput(IOutputCommand sender, object output)
         {
             //Evalutate
-            if(output is IContent)
+            if (output is IContent)
             {
                 bool result = true;
                 var val = ((IContent)output).Property[Property].Value;
@@ -54,12 +44,26 @@ namespace CodeArt.Episerver.DevConsole.Commands
                 {
                     OnCommandOutput?.Invoke(this, output);
                 }
-            } 
+            }
             //TODO: Support Dictionaries and objects and strings?
+        }
+
+        public void Initialize(IOutputCommand Source, params string[] parameters)
+        {
+            //propertyname EQUAL CONTAINS MATCH NOTEQUAL GT LT value
+            if (Source != null) Source.OnCommandOutput += Source_OnCommandOutput;
+
+            if (parameters.Length == 3)
+            {
+                Property = parameters[0];
+                Operator = (Operators)Enum.Parse(typeof(Operators), parameters[1]);
+                Value = parameters[2];
+            }
+            //TODO: Validation        }
         }
     }
 
-    public enum Operators
+        public enum Operators
     {
         Equals,
         Contains,

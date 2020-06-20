@@ -12,6 +12,8 @@ namespace CodeArt.Episerver.DevConsole.Attributes
 
         public string Description { get; set; }
 
+        public bool Required { get; set; }
+
         public int Order { get; set; }
 
         public string Name { get; set; }

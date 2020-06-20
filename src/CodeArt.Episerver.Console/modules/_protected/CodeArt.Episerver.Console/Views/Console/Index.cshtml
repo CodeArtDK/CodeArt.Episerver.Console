@@ -82,17 +82,23 @@
     <script>
         var cmdhistory = [];
         var sessionid = null;
+        var cmdpoint = 0;
        $("#command").on('keyup', function (e) {
            if (e.keyCode == 13) {
 
                var cmd = $('#command').val();
                cmdhistory.push(cmd);
-               $('#log').append('<p class="myText">command&gt;'+cmd + '</p>');
+               cmdpoint = cmdhistory.length;
+               $('#log').append('<p class="myText">command&gt;' + cmd + '</p>');
                $('#command').val('');
-               $.post('@EPiServer.Shell.Paths.ToResource("CodeArt.Episerver.DevConsole","Console/RunCommand/")', { command: cmd,Session:sessionid });
+               $.post('@EPiServer.Shell.Paths.ToResource("CodeArt.Episerver.DevConsole","Console/RunCommand/")', { command: cmd, Session: sessionid });
            } else if (e.keyCode == 38) {
                //Arrow up - if val is empty fill in last typed command. Otherwise it may be navigating in autocomplete?
-               $('#command').val(cmdhistory[cmdhistory.length]);
+               cmdpoint--;
+               $('#command').val(cmdhistory[cmdpoint]);
+           } else if (e.keyCode == 40) {
+               cmdpoint++;
+               $('#command').val(cmdhistory[cmdpoint]);
            }
        });
        $(function () {

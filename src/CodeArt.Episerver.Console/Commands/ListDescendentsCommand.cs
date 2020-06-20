@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 
 namespace DeveloperTools.Console. Commands
 {
-    [Command(Keyword = "list", Description ="Lists all descendants below the node")]
-    public class ListCommand : IOutputCommand
+    [Command(Keyword = "listdescendents", Description ="Lists all descendents below the node")]
+    public class ListDescendentsCommand : IOutputCommand
     {
         public event CommandOutput OnCommandOutput;
 

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace CodeArt.Episerver.DevConsole.Commands
 {
     [Command(Keyword = "notify", Description ="Sends a notification to an editor")]
-    public class NotifyCommand : IConsoleCommand
+    public class NotifyCommand : IConsoleCommand, IInputCommand
     {
         [CommandParameter]
         public string ChannelName { get; set; }
@@ -53,6 +53,16 @@ namespace CodeArt.Episerver.DevConsole.Commands
 
             _notifier.PostNotificationAsync(message).Wait();
             return "User notified";
+        }
+
+        public void Initialize(IOutputCommand Source, params string[] parameters)
+        {
+            Source.OnCommandOutput += Source_OnCommandOutput;
+        }
+
+        private void Source_OnCommandOutput(IOutputCommand sender, object output)
+        {
+            if (Content != null) Content = output.ToString();
         }
     }
 }

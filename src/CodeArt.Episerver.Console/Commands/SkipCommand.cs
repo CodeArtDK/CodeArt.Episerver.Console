@@ -11,7 +11,6 @@ namespace CodeArt.Episerver.DevConsole.Commands
     [Command(Keyword ="skip")]
     public class SkipCommand : IOutputCommand, IInputCommand
     {
-        public IOutputCommand Source { get; set; }
 
         public event CommandOutput OnCommandOutput;
 
@@ -20,12 +19,7 @@ namespace CodeArt.Episerver.DevConsole.Commands
 
         public string Execute(params string[] parameters)
         {
-            _seen = 0;
-            if (parameters.Length == 1) Count = int.Parse(parameters[0]);
-            if (Source != null)
-            {
-                Source.OnCommandOutput += Source_OnCommandOutput;
-            }
+            
 
             return string.Empty;
         }
@@ -34,6 +28,16 @@ namespace CodeArt.Episerver.DevConsole.Commands
         {
             _seen++;
             if (_seen > Count) OnCommandOutput?.Invoke(this, output);
+        }
+
+        public void Initialize(IOutputCommand Source, params string[] parameters)
+        {
+            _seen = 0;
+            if (parameters.Length == 1) Count = int.Parse(parameters[0]);
+            if (Source != null)
+            {
+                Source.OnCommandOutput += Source_OnCommandOutput;
+            }
         }
     }
 }

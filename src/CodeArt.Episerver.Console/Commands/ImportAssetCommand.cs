@@ -26,7 +26,6 @@ namespace CodeArt.Episerver.DevConsole.Commands
         [CommandParameter(Description ="The path below the Global Asset folder to download to.")]
         public string Destination { get; set; }
 
-        public IOutputCommand Source { get; set; }
 
         public event OutputToConsoleHandler OutputToConsole;
         public event CommandOutput OnCommandOutput;
@@ -76,7 +75,6 @@ namespace CodeArt.Episerver.DevConsole.Commands
 
         public string Execute(params string[] parameters)
         {
-            if (Source != null) Source.OnCommandOutput += Source_OnCommandOutput;
             if (!string.IsNullOrEmpty(Url))
             {
                 string success=DownloadAsset(Url);
@@ -94,6 +92,11 @@ namespace CodeArt.Episerver.DevConsole.Commands
             if (success == null) OutputToConsole?.Invoke(this, $"Successfully downloaded asset {(string)output}");
             else OutputToConsole?.Invoke(this, $"Failed to download asset {Url} with error: {success}");
 
+        }
+
+        public void Initialize(IOutputCommand Source, params string[] parameters)
+        {
+            if (Source != null) Source.OnCommandOutput += Source_OnCommandOutput;
         }
     }
 }

@@ -13,7 +13,6 @@ namespace CodeArt.Episerver.DevConsole.Commands
     [Command(Keyword = "select", Description = "Selects a specific property from a piece of content or an object or a dictionary.")]
     public class SelectCommand : IOutputCommand, IInputCommand
     {
-        public IOutputCommand Source { get; set; }
 
         public event CommandOutput OnCommandOutput;
 
@@ -23,14 +22,7 @@ namespace CodeArt.Episerver.DevConsole.Commands
 
         public string Execute(params string[] parameters)
         {
-            if (parameters.Length > 0 && string.IsNullOrEmpty(Property))
-            {
-                Property = parameters.First();
-            }
-            if (Source != null)
-            {
-                Source.OnCommandOutput += Source_OnCommandOutput;
-            }
+            
 
             return string.Empty;
         }
@@ -60,6 +52,15 @@ namespace CodeArt.Episerver.DevConsole.Commands
                     }
                 }
             }
+        }
+
+        public void Initialize(IOutputCommand Source, params string[] parameters)
+        {
+            if (parameters.Length > 0 && string.IsNullOrEmpty(Property))
+            {
+                Property = parameters.First();
+            }
+            Source.OnCommandOutput += Source_OnCommandOutput;
         }
     }
 }

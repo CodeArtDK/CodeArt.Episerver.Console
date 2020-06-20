@@ -9,7 +9,6 @@ namespace CodeArt.Episerver.DevConsole.Interfaces
 {
     interface IInputCommand : IConsoleCommand
     {
-        IOutputCommand Source { get; set; }
-
+        void Initialize(IOutputCommand Source, params string[] parameters);
     }
 }

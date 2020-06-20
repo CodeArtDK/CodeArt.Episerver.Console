@@ -81,7 +81,7 @@ Autocomplete in the UI (after pipe or at newline, suggest commands. After comman
 
 UI Control bar. With download link to CLI, about-box, pop-up overviews and so on.
 
-
+Converter commands
 
 
 ---

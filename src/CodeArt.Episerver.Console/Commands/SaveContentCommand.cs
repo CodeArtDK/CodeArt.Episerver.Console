@@ -11,32 +11,38 @@ using System.Threading.Tasks;
 
 namespace CodeArt.Episerver.DevConsole.Commands
 {
-    /// <summary>
-    /// Loads IContent from a content reference.
-    /// Used for piping.
-    /// </summary>
-    [Command(Keyword ="loadcontent",Description ="Loads content from a content reference", Group = CommandGroups.CONTENT)]
-    public class LoadContentCommand : IInputCommand, IOutputCommand
+    [Command(Keyword ="savecontent")]
+    public class SaveContentCommand : IConsoleCommand, IInputCommand, IOutputCommand
     {
+
         public event CommandOutput OnCommandOutput;
 
         protected Injected<IContentRepository> repo { get; set; }
 
+        [CommandParameter]
+        public EPiServer.DataAccess.SaveAction Action { get; set; }
+
         public string Execute(params string[] parameters)
         {
+            //Prepare to save content
             return null;
-        }
-
-        public void Initialize(IOutputCommand Source, params string[] parameters)
-        {
-            Source.OnCommandOutput += Source_OnCommandOutput;
         }
 
         private void Source_OnCommandOutput(IOutputCommand sender, object output)
         {
-            ContentReference cr = (output.GetType() == typeof(ContentReference)) ? (ContentReference)output : ContentReference.Parse(output.ToString());
-            var c = repo.Service.Get<IContent>(cr);
-            OnCommandOutput?.Invoke(this, c);
+            var content = output as IContent;
+            var r = repo.Service.Save(content, Action);
+            OnCommandOutput?.Invoke(this, r);
+        }
+
+        public void Initialize(IOutputCommand Source, params string[] parameters)
+        {
+            if (Source != null) Source.OnCommandOutput += Source_OnCommandOutput;
+        }
+
+        public SaveContentCommand()
+        {
+            Action = EPiServer.DataAccess.SaveAction.Publish;
         }
     }
 }
