@@ -191,6 +191,7 @@
     <Compile Include="Commands\SetPropertyCommand.cs" />
     <Compile Include="Commands\SitesCommand.cs" />
     <Compile Include="Commands\SortCommand.cs" />
+    <Compile Include="Commands\TestWaitCommand.cs" />
     <Compile Include="Controllers\CLIController.cs" />
     <Compile Include="Core\CLIUserRole.cs" />
     <Compile Include="Core\CommandJob.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="Commands\StartCommand.cs" />
     <Compile Include="Commands\TakeCommand.cs" />
     <Compile Include="Core\ConsoleInit.cs" />
+    <Compile Include="Interfaces\ILogAwareCommand.cs" />
     <Compile Include="Models\ConsoleModel.cs" />
     <Compile Include="Core\ConsoleMenuProvider.cs" />
     <Compile Include="Interfaces\IConsoleCommand.cs" />

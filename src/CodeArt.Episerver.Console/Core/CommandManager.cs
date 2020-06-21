@@ -27,6 +27,7 @@ namespace CodeArt.Episerver.DevConsole.Core
 
         public List<CommandJob> ActiveJobs { get; set; }
 
+        public List<System.Threading.Tasks.Task> Tasks { get; set; }
 
         private Random _rand = new Random();
 
@@ -72,10 +73,10 @@ namespace CodeArt.Episerver.DevConsole.Core
             log.Add(logItem);
         }
 
-        public IEnumerable<CommandLog> GetLogs(string session,int Skip)
+        public IEnumerable<CommandLog> GetLogs(string session)
         {
             var log = NewSession(session);
-            return log.Skip(Skip);
+            return log;
         }
 
         public CommandManager()
@@ -83,6 +84,7 @@ namespace CodeArt.Episerver.DevConsole.Core
             Commands = new Dictionary<string, ConsoleCommandDescriptor>();
             ActiveJobs = new List<CommandJob>();
             Log = new Dictionary<string, List<CommandLog>>();
+            Tasks = new List<System.Threading.Tasks.Task>();
         }
 
         public static string[] SplitArguments(string commandLine)
@@ -111,8 +113,14 @@ namespace CodeArt.Episerver.DevConsole.Core
 
         public void ExecuteCommand(string command, string session)
         {
-            var commands = command.Split('|').Where(p => p != "").ToArray();
+            bool executeasync = false;
 
+            if (command.ToLower().StartsWith("start "))
+            {
+                executeasync = true;
+                command = command.Substring(6);
+            }
+            var commands = command.Split('|').Where(p => p != "").ToArray();
             List<ExecutableCommand> ecommands = new List<ExecutableCommand>();
             foreach (var cmds in commands)
             {
@@ -165,12 +173,16 @@ namespace CodeArt.Episerver.DevConsole.Core
                         }
                     }
 
-                }
-                else AddLogToSession(session,new CommandLog("System","Unknown Command"));
+                } 
+                else AddLogToSession(session,new CommandLog("System",$"Unknown Command: {parts.First()}"));
 
                 if(ecmd.Command is IConsoleOutputCommand)
                 {
                     ((IConsoleOutputCommand)ecmd.Command).OutputToConsole += new OutputToConsoleHandler((c, s) => { if (s != null) AddLogToSession(session,new CommandLog(c.GetType().Name,s)); });
+                }
+                if(ecmd.Command is ILogAwareCommand)
+                {
+                    ((ILogAwareCommand)ecmd.Command).Log = NewSession(session);
                 }
 
                 if (ecmd.Command is IInputCommand && ecommands.Any() && (ecommands.Last().Command is IOutputCommand)) 
@@ -187,24 +199,39 @@ namespace CodeArt.Episerver.DevConsole.Core
                 }
                 ecommands.Add(ecmd);
             }
-     
+
 
             //Execute
 
-            //ecommands.Reverse();
-            foreach(var ec in ecommands)
-            {
-                try
+            //todo: Handle execute async
+            Action ExecuteCommands = () => {
+                foreach (var ec in ecommands)
                 {
-                    var exec = ec.Command.Execute(ec.Parameters);
-                    if (!string.IsNullOrEmpty(exec)) AddLogToSession(session, new CommandLog(ec.Command.GetType().Name, exec));
-                
-                } catch(Exception exc)
-                {
-                    AddLogToSession(session, new CommandLog(ec.Command.GetType().Name, exc.Message));
-                    //TODO: Logging?
+                    try
+                    {
+                        var exec = ec.Command.Execute(ec.Parameters);
+                        if (!string.IsNullOrEmpty(exec)) AddLogToSession(session, new CommandLog(ec.Command.GetType().Name, exec));
+
+                    }
+                    catch (Exception exc)
+                    {
+                        AddLogToSession(session, new CommandLog(ec.Command.GetType().Name, exc.Message));
+                        //TODO: Logging?
+                    }
                 }
+            };
+
+            if (executeasync)
+            {
+                //Queue task
+                AddLogToSession(session, new CommandLog("System", "Starting Task"));
+                System.Threading.Tasks.Task t = System.Threading.Tasks.Task.Run(ExecuteCommands);
+                
+                Tasks.Add(t);
+
             }
+            else ExecuteCommands();
+            
 
         }
 

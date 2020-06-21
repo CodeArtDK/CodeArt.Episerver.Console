@@ -30,7 +30,8 @@ namespace CodeArt.Episerver.DevConsole.Controllers
         {
             if (session == null) session = Guid.NewGuid().ToString();
             _manager.UpdateJobs();
-            var lst = _manager.GetLogs(session, LastLogNo).Take(100).ToList();
+            var log = _manager.GetLogs(session);
+            var lst =log.Skip(LastLogNo).Take(100).ToList();
             return Json(new { LastNo = LastLogNo + lst.Count, LogItems = lst, Session = session }, JsonRequestBehavior.AllowGet);
         }
 

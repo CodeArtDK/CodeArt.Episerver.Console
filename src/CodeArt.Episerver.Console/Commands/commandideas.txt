@@ -32,6 +32,8 @@ AttachProvider
 
 GenerateContent
 
+Command that uses Fluid or Scriban or similar templating language
+
 RunningTasks
 
 Debug
