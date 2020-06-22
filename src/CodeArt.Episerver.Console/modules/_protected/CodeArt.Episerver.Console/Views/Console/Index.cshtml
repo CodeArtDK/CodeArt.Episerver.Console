@@ -1,6 +1,6 @@
 ﻿@using EPiServer.Framework.Web.Resources
 @using EPiServer.Shell.Navigation
-
+@model CodeArt.Episerver.DevConsole.Models.ConsoleModel
 
 @{
     Layout = null;
@@ -80,6 +80,7 @@
 
     </div>
     <script>
+        var commandlist=@Html.Raw(Model.Commands);
         var cmdhistory = [];
         var sessionid = null;
         var cmdpoint = 0;

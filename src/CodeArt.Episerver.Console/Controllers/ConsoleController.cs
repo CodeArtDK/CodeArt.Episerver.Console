@@ -1,7 +1,8 @@
 ﻿using CodeArt.Episerver.DevConsole;
 using CodeArt.Episerver.DevConsole.Core;
-using CodeArt.Episerver.Models;
+using CodeArt.Episerver.DevConsole.Models;
 using EPiServer.Security;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,11 @@ namespace CodeArt.Episerver.Controllers
 
         public ActionResult Index()
         {
-            return View(new ConsoleModel());
+            var model = new ConsoleModel();
+            var cmdlist=_manager.Commands.Select(kvp => new { Keyword = kvp.Value.Keyword, Info = kvp.Value.Info, Parameters = kvp.Value.Parameters.Keys }).ToList();
+            model.Commands = JsonConvert.SerializeObject(cmdlist);
+            
+            return View(model);
         }
 
         public ActionResult FetchLog(int LastLogNo, string session=null)
