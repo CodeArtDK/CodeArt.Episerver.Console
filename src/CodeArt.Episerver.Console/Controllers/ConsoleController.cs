@@ -54,6 +54,7 @@ namespace CodeArt.Episerver.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult RunCommand(string command, string session=null)
         {
             if (session == null) session = Guid.NewGuid().ToString();

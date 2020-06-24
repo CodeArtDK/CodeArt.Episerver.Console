@@ -39,6 +39,9 @@ namespace CodeArt.Episerver.DevConsole.Commands
                 } else if (content.Property[Name].PropertyValueType == typeof(ContentReference))
                 {
                     content.SetValue(Name, ContentReference.Parse(Value));
+                } else if(content.Property[Name].PropertyValueType == typeof(XhtmlString))
+                {
+                    content.SetValue(Name, new XhtmlString(Value));
                 }
                 else 
                 {

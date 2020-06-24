@@ -24,17 +24,26 @@ namespace CodeArt.Episerver.DevConsole.Commands
 
         public string Execute(params string[] parameters)
         {
-
             return null;
         }
 
         private void Source_OnCommandOutput(IOutputCommand sender, object output)
         {
+            object val = output;
             //Evalutate
             if (output is IContent)
             {
+                
+                val = ((IContent)output).Property[Property].Value;
+            } else if(output is IDictionary<string,object>)
+            {
+                val = ((IDictionary<string, object>)output)[Property];
+            }
+            //TODO: Support objects
+
+            if(val is string)
+            {
                 bool result = true;
-                var val = ((IContent)output).Property[Property].Value;
                 if (val == null && Operator != Operators.IsNull) result = false;
                 else if (Operator == Operators.Contains && !(val as string).Contains(Value)) result = false;
                 else if (Operator == Operators.Equals && (val as string) != Value) result = false;
@@ -44,7 +53,17 @@ namespace CodeArt.Episerver.DevConsole.Commands
                 {
                     OnCommandOutput?.Invoke(this, output);
                 }
-            }
+            } else if(val is int)
+            {
+                if((Operator==Operators.Equals && ((int)val)==int.Parse(Value)) ||
+                    (Operator == Operators.GreaterThan && ((int)val) > int.Parse(Value)) ||
+                    (Operator == Operators.LessThan && ((int)val) < int.Parse(Value)) ||
+                    (Operator == Operators.NotEquals && ((int)val) != int.Parse(Value)))
+                {
+                    OnCommandOutput?.Invoke(this, output);
+                }
+
+            } //TODO: Support bool, decimal, double, datetime, complex objects?
             //TODO: Support Dictionaries and objects and strings?
         }
 
