@@ -29,7 +29,6 @@ namespace CodeArt.Episerver.DevConsole.Controllers
         public ActionResult FetchLog(int LastLogNo, string session = null)
         {
             if (session == null) session = Guid.NewGuid().ToString();
-            _manager.UpdateJobs();
             var log = _manager.GetLogs(session);
             var lst =log.Skip(LastLogNo).Take(100).ToList();
             return Json(new { LastNo = LastLogNo + lst.Count, LogItems = lst, Session = session }, JsonRequestBehavior.AllowGet);

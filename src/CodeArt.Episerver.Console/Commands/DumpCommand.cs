@@ -30,7 +30,7 @@ namespace CodeArt.Episerver.DevConsole.Commands
 
             if (Type == DumpType.Json)
             {
-                OutputToConsole?.Invoke(this, JsonConvert.SerializeObject(output, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore, Formatting = Formatting.Indented }));
+                OutputToConsole?.Invoke(this, JsonConvert.SerializeObject(output, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore, NullValueHandling=NullValueHandling.Ignore, Formatting = Formatting.Indented }));
             }
             else if (output is KeyValuePair<string, string>)
             {
@@ -47,7 +47,7 @@ namespace CodeArt.Episerver.DevConsole.Commands
                 }
 
             }
-            else OutputToConsole?.Invoke(this, output?.ToString());
+            else OutputToConsole?.Invoke(this, HttpUtility.HtmlEncode(output?.ToString()));
             
             //TODO: Support objects to show like tables?
         }

@@ -23,7 +23,7 @@
 
     <style>
 
-        input[type="text"] {
+        #command {
             min-width: 90%;
             border: none;
             font-family: inherit;
@@ -31,7 +31,7 @@
             padding: 0 .5em;
         }
 
-            input[type="text"]:focus {
+            #command:focus {
                 background: #fbfbfb;
                 color: #000;
                 outline: none;
@@ -59,6 +59,14 @@
             font-size: 14px;
             font-family: 'Lucida Console', Arial;
         }
+        .help{
+            background-color:lightblue;
+            padding: 10px 10px 10px 10px;
+            width:50%;
+            height:200px;
+            font-family: Myriad,Helvetica,Tahoma,Arial,clean,sans-serif;
+        }
+
     </style>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
@@ -73,8 +81,13 @@
 
 
             <div style="width:80%; display:table">
-                <label for="command" style="display:table-cell; width:1px">command&gt;</label>
-                <input type="text" id="command" style="display:table-cell; width:100%" />
+                <label for="command" style="display:table-cell; width:1px; vertical-align:top">command&gt;</label>
+                <textarea id="command" style="display:table-cell;width:100%" rows="4"></textarea>
+                @*<input type="text" id="command" style="display:table-cell; width:100%" />*@
+            </div>
+            <div class="help">
+                <h3>Hint</h3>
+                <div id="helptext">Type <b>help</b> to get a list of all commands available.</div>
             </div>
         </div>
 
@@ -84,6 +97,7 @@
         var cmdhistory = [];
         var sessionid = null;
         var cmdpoint = 0;
+        var suggestedcommand = null;
        $("#command").on('keyup', function (e) {
            if (e.keyCode == 13) {
 
@@ -98,14 +112,59 @@
                cmdpoint--;
                $('#command').val(cmdhistory[cmdpoint]);
            } else if (e.keyCode == 40) {
+               //Arrow down - command history navigation
                cmdpoint++;
                $('#command').val(cmdhistory[cmdpoint]);
+           } else if (e.keyCode == 190 && e.ctrlKey && suggestedcommand!=null) {
+               //Tab, if there is a suggestedcommand, use it now.
+               var cmd = $('#command').val();
+               var parts = cmd.split('|');
+               if (suggestedcommand.startsWith(parts[parts.length - 1].toLowerCase())){
+                   parts[parts.length - 1] = suggestedcommand;
+                   $('#command').val(parts.join("|"));
+               }
+               
+           } else {
+               //Any other key, evalute if help text should be updated.
+               UpdateHelp($('#command').val());
            }
        });
        $(function () {
            $('#command').focus();
        });
-       var last = 0;
+        var last = 0;
+
+        function UpdateHelp(command) {
+            var rt = 'Type <b>help</b> to get a list of all commands available.';
+            var parts = command.split('|');
+            var curr = parts[parts.length - 1];
+            if (curr != '' && curr != undefined) {
+                var p2 = curr.split(' ');
+                var currp = p2[0];
+                var possCommands = $.grep(commandlist, function (n, i) {
+                    return ((n.Keyword.startsWith(currp.toLowerCase()) ||(currp.length>2 && n.Keyword.includes(currp.toLowerCase()))) && (parts.length==1 || n.CanPipeIn));
+                });
+                if (possCommands.length == 1) {
+                    rt = '<h4>' + possCommands[0].Keyword + "</h4><p>" + possCommands[0].Description + "</p>";
+                    if (possCommands[0].Syntax != null) {
+                        rt += '<i>' + possCommands[0].Syntax + '</i><br/>';
+                    }
+                    if (possCommands[0].Parameters.length > 0) {
+                        rt += "<b>Parameters:</b><ul>" +
+                            $(possCommands[0].Parameters).map(function () { return "<li>-" + this + "</li>"; }).get().join('') + "</ul>";
+                    }
+                    suggestedcommand = possCommands[0].Keyword;
+                } else if (possCommands.length > 1) {
+                    rt = 'Possible commands: <ul>' + $(possCommands).map(function () { return '<li><b>' + this.Keyword + '</b> <i>' + this.Description + '</i></li>'; }).get().join('') + '</ul>';
+                    suggestedcommand = null;
+                } else {
+                    //No possible commands
+                    suggestedcommand = null;
+                }
+            }
+            $('#helptext').html(rt);
+        }
+
        function RefreshLog() {
            $.getJSON('@EPiServer.Shell.Paths.ToResource("CodeArt.Episerver.DevConsole","Console/FetchLog/")', { LastLogNo: last, Session:sessionid }, function (data) {
                last = data.LastNo;

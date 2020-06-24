@@ -1,22 +1,28 @@
 ﻿using CodeArt.Episerver.DevConsole.Attributes;
 using CodeArt.Episerver.DevConsole.Interfaces;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace CodeArt.Episerver.DevConsole.Commands
 {
-    [Command(Keyword ="sort", Description ="Sorts an incoming list before passing it on")]
-    public class SortCommand : IConsoleCommand, IInputCommand, IOutputCommand
+
+    [Command(Keyword ="setsessionvar", Description ="Sets a session variable")]
+    public class SetSessionVarCommand : IConsoleCommand, IInputCommand
     {
-        public event CommandOutput OnCommandOutput;
+        [CommandParameter]
+        public string Key { get; set; }
+
+        [CommandParameter]
+        public string Value { get; set; }
 
         public string Execute(params string[] parameters)
         {
-            return null;
+            if (!string.IsNullOrEmpty(Value)) HttpContext.Current.Session[Key] = Value;
+            return "Session variable stored";
         }
 
         public void Initialize(IOutputCommand Source, params string[] parameters)
@@ -26,9 +32,7 @@ namespace CodeArt.Episerver.DevConsole.Commands
 
         private void Source_OnCommandOutput(IOutputCommand sender, object output)
         {
-            if (!(output is IEnumerable)) throw (new ApplicationException("Received input is not a list"));
-            //TODO: Sort on a named field
-
+            HttpContext.Current.Session[Key] = output;
         }
     }
 }
