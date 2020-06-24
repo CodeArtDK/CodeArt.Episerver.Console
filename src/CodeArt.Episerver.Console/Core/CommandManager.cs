@@ -25,26 +25,10 @@ namespace CodeArt.Episerver.DevConsole.Core
         //Support multiple logs
 
 
-        public List<CommandJob> ActiveJobs { get; set; }
-
         public List<System.Threading.Tasks.Task> Tasks { get; set; }
 
         private Random _rand = new Random();
 
-        public void UpdateJobs()
-        {
-            //Logging
-            foreach(var j in ActiveJobs)
-            {
-                CommandLog cl = null;
-                while(j.LogQueue.TryDequeue(out cl))
-                {
-                    //Log.Add(cl);
-                }
-            }
-            //Clean up
-            ActiveJobs.RemoveAll(cj => cj.Thread.ThreadState == ThreadState.Stopped);
-        }
 
 
         protected void CleanUp()
@@ -56,6 +40,10 @@ namespace CodeArt.Episerver.DevConsole.Core
                 if (Log[k].Last().Time > DateTime.Now.AddDays(1)) toRemove.Add(k); 
             }
             foreach (var k in toRemove) Log.Remove(k);
+
+            //Clean up jobs
+            Tasks.RemoveAll(t => t.IsCompleted || t.IsCanceled);
+            
         }
 
         protected List<CommandLog> NewSession(string sessionID)
@@ -82,7 +70,6 @@ namespace CodeArt.Episerver.DevConsole.Core
         public CommandManager()
         {
             Commands = new Dictionary<string, ConsoleCommandDescriptor>();
-            ActiveJobs = new List<CommandJob>();
             Log = new Dictionary<string, List<CommandLog>>();
             Tasks = new List<System.Threading.Tasks.Task>();
         }
@@ -114,7 +101,7 @@ namespace CodeArt.Episerver.DevConsole.Core
         public void ExecuteCommand(string command, string session)
         {
             bool executeasync = false;
-
+            CleanUp();
             if (command.ToLower().StartsWith("start "))
             {
                 executeasync = true;
@@ -143,28 +130,36 @@ namespace CodeArt.Episerver.DevConsole.Core
                     {
                         if (parts[i].StartsWith("-"))
                         {
-                            //Parameter
-                            if (cmdd.Parameters.ContainsKey(parts[i].ToLower().TrimStart('-')))
+                            try
                             {
-                                var pi = cmdd.Parameters[parts[i].ToLower().TrimStart('-')];
-                                if (pi.PropertyType == typeof(string))
+                                //Parameter
+                                if (cmdd.Parameters.ContainsKey(parts[i].ToLower().TrimStart('-')))
                                 {
-                                    pi.SetValue(cmd, parts[i + 1]); //TODO: Support other types than string
+                                    var pi = cmdd.Parameters[parts[i].ToLower().TrimStart('-')];
+                                    if (pi.PropertyType == typeof(string))
+                                    {
+                                        pi.SetValue(cmd, parts[i + 1]); //TODO: Support other types than string
+                                    }
+                                    else if (pi.PropertyType == typeof(bool))
+                                    {
+                                        pi.SetValue(cmd, bool.Parse(parts[i + 1]));
+                                    }
+                                    else if (pi.PropertyType == typeof(int))
+                                    {
+                                        pi.SetValue(cmd, int.Parse(parts[i + 1]));
+                                    }
+                                    else if (pi.PropertyType.IsEnum)
+                                    {
+                                        pi.SetValue(cmd, Enum.Parse(pi.PropertyType, parts[i + 1], true));
+                                    }
                                 }
-                                else if (pi.PropertyType == typeof(bool))
+                                else
                                 {
-                                    pi.SetValue(cmd, bool.Parse(parts[i + 1]));
+                                    AddLogToSession(session, new CommandLog("System", "Unrecognized parameter"));
                                 }
-                                else if(pi.PropertyType == typeof(int))
-                                {
-                                    pi.SetValue(cmd, int.Parse(parts[i + 1]));
-                                } else if (pi.PropertyType.IsEnum)
-                                {
-                                    pi.SetValue(cmd, Enum.Parse(pi.PropertyType, parts[i + 1]));
-                                }
-                            } else 
+                            } catch(Exception exc)
                             {
-                                AddLogToSession(session, new CommandLog("System", "Unrecognized parameter"));
+                                AddLogToSession(session, new CommandLog("System", $"Error in parameters for {cmdd}: {exc.Message}"));
                             }
                         }
                         else
@@ -203,7 +198,6 @@ namespace CodeArt.Episerver.DevConsole.Core
 
             //Execute
 
-            //todo: Handle execute async
             Action ExecuteCommands = () => {
                 foreach (var ec in ecommands)
                 {
@@ -226,7 +220,6 @@ namespace CodeArt.Episerver.DevConsole.Core
                 //Queue task
                 AddLogToSession(session, new CommandLog("System", "Starting Task"));
                 System.Threading.Tasks.Task t = System.Threading.Tasks.Task.Run(ExecuteCommands);
-                
                 Tasks.Add(t);
 
             }

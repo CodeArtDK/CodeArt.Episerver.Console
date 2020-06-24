@@ -2,7 +2,7 @@
   "profiles": {
     "CodeArt.Episerver.Console.CLI": {
       "commandName": "Project",
-      "commandLineArgs": "http://localhost:50532/CLI/ 1K8aXZ0dNEGZE2ZN9gnsdw=="
+      "commandLineArgs": "http://localhost:61510/CLI/ 9nw1tZzURUyOYouCXCq0pQ=="
     }
   }
 }

@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace CodeArt.Episerver.DevConsole.Commands
 {
-    [Command(Keyword ="sort", Description ="Sorts an incoming list before passing it on")]
-    public class SortCommand : IConsoleCommand, IInputCommand, IOutputCommand
+    [Command(Keyword ="foreach",Description ="Iterates through incoming lists", Group =CommandGroups.CONTROL)]
+    public class ForEachCommand : IInputCommand, IOutputCommand
     {
         public event CommandOutput OnCommandOutput;
 
@@ -26,9 +26,11 @@ namespace CodeArt.Episerver.DevConsole.Commands
 
         private void Source_OnCommandOutput(IOutputCommand sender, object output)
         {
-            if (!(output is IEnumerable)) throw (new ApplicationException("Received input is not a list"));
-            //TODO: Sort on a named field
-
+            if(output is IEnumerable)
+            {
+                foreach (var o in (output as IEnumerable))
+                    OnCommandOutput?.Invoke(this, o);
+            }
         }
     }
 }

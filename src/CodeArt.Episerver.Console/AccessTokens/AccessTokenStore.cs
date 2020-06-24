@@ -35,7 +35,7 @@ namespace CodeArt.Episerver.DevConsole.AccessTokens
 
         public void RemoveToken(string Id)
         {
-            store.Delete(Id);
+            store.Delete(Guid.Parse(Id));
         }
 
 

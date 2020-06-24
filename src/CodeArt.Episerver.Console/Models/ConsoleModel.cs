@@ -1,7 +1,12 @@
-﻿namespace CodeArt.Episerver.Models
+﻿using CodeArt.Episerver.DevConsole.Models;
+using System.Collections.Generic;
+
+namespace CodeArt.Episerver.DevConsole.Models
 {
-    internal class ConsoleModel
+    public class ConsoleModel
     {
+        public string Commands{ get; set; }
+
         public ConsoleModel()
         {
         }

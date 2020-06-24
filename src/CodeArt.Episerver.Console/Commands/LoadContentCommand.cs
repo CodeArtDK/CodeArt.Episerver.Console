@@ -24,6 +24,16 @@ namespace CodeArt.Episerver.DevConsole.Commands
 
         public string Execute(params string[] parameters)
         {
+            if (parameters.Length > 0)
+            {
+                foreach(var p in parameters)
+                {
+                    ContentReference cr = ContentReference.Parse(p);
+                    var c = repo.Service.Get<IContent>(cr);
+                    OnCommandOutput?.Invoke(this, c);
+
+                }
+            }
             return null;
         }
 
