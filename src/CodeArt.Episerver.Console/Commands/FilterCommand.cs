@@ -38,9 +38,11 @@ namespace CodeArt.Episerver.DevConsole.Commands
             } else if(output is IDictionary<string,object>)
             {
                 val = ((IDictionary<string, object>)output)[Property];
+            } else if(output.GetType().GetProperties(System.Reflection.BindingFlags.Public| System.Reflection.BindingFlags.Instance| System.Reflection.BindingFlags.GetProperty).Any(p => p.Name.ToLower() == Property.ToLower()))
+            {
+                var pi = output.GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.GetProperty).First(p => p.Name.ToLower() == Property.ToLower());
+                val=pi.GetValue(output);
             }
-            //TODO: Support objects
-
             if(val is string)
             {
                 bool result = true;
@@ -75,8 +77,17 @@ namespace CodeArt.Episerver.DevConsole.Commands
             if (parameters.Length == 3)
             {
                 Property = parameters[0];
-                Operator = (Operators)Enum.Parse(typeof(Operators), parameters[1]);
+                switch (parameters[1])
+                {
+                    case "=": Operator = Operators.Equals;break;
+                    case "!=":Operator = Operators.NotEquals;break;
+                    case ">":Operator = Operators.GreaterThan;break;
+                    case "<":Operator = Operators.LessThan;break;
+                    default: Operator = (Operators)Enum.Parse(typeof(Operators), parameters[1], true);break;
+                }
                 Value = parameters[2];
+                if (Value == "null" && Operator == Operators.Equals) Operator = Operators.IsNull;
+                if (Value == "null" && Operator == Operators.NotEquals) Operator = Operators.IsNotNull;
             }
             //TODO: Validation        }
         }

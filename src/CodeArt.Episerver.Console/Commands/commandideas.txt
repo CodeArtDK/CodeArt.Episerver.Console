@@ -60,6 +60,12 @@ Projects
 
 Tasks
 
+register routes / list registrered routes
+
+Content from Url
+
+
+
 Dynamic Data Store
 
 Content Type Details
@@ -98,6 +104,9 @@ Single-sessions - divide log
 RunCommand returns command-output
 
 More detailed commands in log.
+---
+
+Challenge: Merge pipes, pipe variables
 
 ---
 
