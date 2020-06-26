@@ -198,6 +198,7 @@
     <Compile Include="Commands\SortCommand.cs" />
     <Compile Include="Commands\TestWaitCommand.cs" />
     <Compile Include="Commands\ToListCommand.cs" />
+    <Compile Include="Commands\ToLogCommand.cs" />
     <Compile Include="Controllers\CLIController.cs" />
     <Compile Include="Core\CLIUserRole.cs" />
     <Compile Include="Core\CommandJob.cs" />
