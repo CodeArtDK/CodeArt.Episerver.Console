@@ -24,7 +24,15 @@ Convert
 
 ListScheduled jobs, run job
 
+List nuget packages / add-ons and their versions
+
 Grep
+
+Activity logging: https://world.episerver.com/documentation/developer-guides/CMS/logging/activity-logging/
+
+HtmlAgilityPack 
+
+Content report export (as downloadable?)
 
 Copy
 
@@ -64,7 +72,14 @@ register routes / list registrered routes
 
 Content from Url
 
+Support "ToFile", "ToJson", "ToXml", "DoDictionary" - just like ToList.
 
+Download (let's the current user download a file created by the pipe-chain) (NOTE: Always using Content Disposition). Only works in sync-mode
+
+Upload (takes a file uploaded in the body of run-command and passes it in through the pipe-command)
+
+
+Content-versions, fetches all versions of a piece of content
 
 Dynamic Data Store
 

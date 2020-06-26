@@ -18,19 +18,19 @@ namespace CodeArt.Episerver.DevConsole.Commands
         [CommandParameter]
         public string Event { get; set; }
 
+        public Injected<IContentEvents> Events { get; set; }
+
         public string Execute(params string[] parameters)
         {
-            var events = ServiceLocator.Current.GetInstance<IContentEvents>();
-
             if (!string.IsNullOrEmpty(Event))
             {
-                var ev=events.GetType().GetEvent(Event);
+                var ev=Events.Service.GetType().GetEvent(Event);
                 EventHandler<EPiServer.ContentEventArgs> eventHandler = new EventHandler<EPiServer.ContentEventArgs>(Events_ContentEvent);
-                ev.AddEventHandler(events, eventHandler);
+                ev.AddEventHandler(Events.Service, eventHandler);
                 return $"Now listening for events on {Event}";
             }
 
-            return $"You have to specify which event to listen to, using '-Event [eventname]'. Options are: "+string.Join(", ",events.GetType().GetEvents().Select(e => e.Name).ToArray());
+            return $"You have to specify which event to listen to, using '-Event [eventname]'. Options are: "+string.Join(", ",Events.Service.GetType().GetEvents().Select(e => e.Name).ToArray());
         }
 
 
