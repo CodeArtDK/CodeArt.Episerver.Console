@@ -18,6 +18,19 @@ DumpContent
 
 AddFileFromWeb [url] [destinationpath] | [destinationparentid]
 
+FetchContentFromUrl [url]
+
+ExtractElementsFromXPath
+
+HealthCheck / Diagnostics
+
+WriteToLog
+
+Send Test Mails
+
+Makros
+
+
 BatchUpdateContent
 
 Convert
