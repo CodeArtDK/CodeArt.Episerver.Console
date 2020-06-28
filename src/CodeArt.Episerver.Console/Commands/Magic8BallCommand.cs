@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CodeArt.Episerver.DevConsole.Commands
 {
-    [Command(Keyword ="8ball")]
+    [Command(Keyword ="8ball", Description = "Throw the magic 8-ball and get your answer")]
     public class Magic8BallCommand : IConsoleCommand
     {
         public string Execute(params string[] parameters)

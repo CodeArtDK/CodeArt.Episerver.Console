@@ -19,9 +19,15 @@ namespace DeveloperTools.Console. Commands
         [CommandParameter]
         public string Parent { get; set; }
 
+        private readonly IContentRepository _repo;
+
+        public ListDescendentsCommand(IContentRepository contentRepository)
+        {
+            _repo = contentRepository;
+        }
+
         public string Execute(params string[] parameters)
         {
-            var repo = ServiceLocator.Current.GetInstance<IContentRepository>();
             int cnt = 0;
             ContentReference start = ContentReference.StartPage;
             if (!string.IsNullOrEmpty(Parent))
@@ -30,9 +36,9 @@ namespace DeveloperTools.Console. Commands
                 start = ContentReference.Parse(Parent);
             }
 
-            foreach(var r in repo.GetDescendents(start))
+            foreach(var r in _repo.GetDescendents(start))
             {
-                OnCommandOutput?.Invoke(this, repo.Get<IContent>(r));
+                OnCommandOutput?.Invoke(this, _repo.Get<IContent>(r));
                 cnt++;
             }
 

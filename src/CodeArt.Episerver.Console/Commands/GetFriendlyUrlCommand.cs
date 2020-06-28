@@ -16,6 +16,8 @@ namespace CodeArt.Episerver.DevConsole.Commands
     {
         public event CommandOutput OnCommandOutput;
 
+        private readonly UrlResolver _urlResolver;
+
         public Injected<UrlResolver> UrlResolver { get; set; }
 
         [CommandParameter]
@@ -23,6 +25,11 @@ namespace CodeArt.Episerver.DevConsole.Commands
 
         [CommandParameter]
         public string Language { get; set; }
+
+        public GetFriendlyUrlCommand(UrlResolver urlResolver)
+        {
+            _urlResolver = urlResolver;
+        }
 
         private string FindUrl(ContentReference cref)
         {
@@ -49,8 +56,5 @@ namespace CodeArt.Episerver.DevConsole.Commands
             if (output is int) OnCommandOutput?.Invoke(this, FindUrl(new ContentReference((int)output)));
         }
 
-        public GetFriendlyUrlCommand()
-        {
-        }
     }
 }

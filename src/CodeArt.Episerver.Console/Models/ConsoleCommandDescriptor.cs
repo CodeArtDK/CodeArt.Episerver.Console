@@ -1,5 +1,6 @@
 ﻿using CodeArt.Episerver.DevConsole.Attributes;
 using CodeArt.Episerver.DevConsole.Interfaces;
+using EPiServer.ServiceLocation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,7 +51,8 @@ namespace CodeArt.Episerver.DevConsole.Models
 
         public T CreateNew<T>() where T:IConsoleCommand
         {
-            return (T) Activator.CreateInstance(CommandType);
+            return (T)ServiceLocator.Current.GetInstance(CommandType);
+            //return (T) Activator.CreateInstance(CommandType);
         }
     }
 }

@@ -16,14 +16,19 @@ namespace CodeArt.Episerver.DevConsole.Commands
     {
         public event CommandOutput OnCommandOutput;
 
+        private readonly ISiteDefinitionRepository _siteRepo;
+
+        public SitesCommand(ISiteDefinitionRepository siteDefinitionRepository)
+        {
+            _siteRepo = siteDefinitionRepository;
+        }
 
         public string Execute(params string[] parameters)
         {
-            var repo = ServiceLocator.Current.GetInstance<ISiteDefinitionRepository>();
             int cnt = 0;
 
 
-            foreach (var r in repo.List())
+            foreach (var r in _siteRepo.List())
             {
                 OnCommandOutput?.Invoke(this, r);
                 cnt++;

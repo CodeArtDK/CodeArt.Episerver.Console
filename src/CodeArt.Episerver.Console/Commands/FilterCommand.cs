@@ -89,7 +89,6 @@ namespace CodeArt.Episerver.DevConsole.Commands
                 if (Value == "null" && Operator == Operators.Equals) Operator = Operators.IsNull;
                 if (Value == "null" && Operator == Operators.NotEquals) Operator = Operators.IsNotNull;
             }
-            //TODO: Validation        }
         }
     }
 

@@ -17,14 +17,19 @@ namespace CodeArt.Episerver.DevConsole.Commands
 
         public event OutputToConsoleHandler OutputToConsole;
 
-        public Injected<CommandManager> Manager { get; set; }
+        private readonly CommandManager _manager;
+
+        public ActiveTasksCommand(CommandManager commandManager)
+        {
+            _manager = commandManager;
+        }
 
         public string Execute(params string[] parameters)
         {
 
             int cnt = 0;
             OutputToConsole?.Invoke(this, "Active Tasks: ");
-            foreach(var t in Manager.Service.Tasks)
+            foreach(var t in _manager.Tasks)
             {
                 OutputToConsole?.Invoke(this, $"{t.Id}\t{t.Status}\t{t.Exception.Message}");
                 cnt++;

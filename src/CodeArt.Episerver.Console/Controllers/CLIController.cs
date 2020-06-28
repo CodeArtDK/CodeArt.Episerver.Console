@@ -10,7 +10,6 @@ namespace CodeArt.Episerver.DevConsole.Controllers
 {
 
 
-    //[Authorize(Roles ="CLIUsers")]
     public class CLIController : Controller
     {
         private readonly CommandManager _manager;

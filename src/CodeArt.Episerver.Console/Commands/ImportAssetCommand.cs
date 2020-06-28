@@ -27,17 +27,25 @@ namespace CodeArt.Episerver.DevConsole.Commands
         public string Destination { get; set; }
 
 
+        private readonly IContentRepository _repo;
+        private readonly IContentTypeRepository _trepo;
+        private readonly ContentMediaResolver _mresolver;
+        private readonly IBlobFactory _blobFactory;
+        private readonly ContentAssetHelper _contentAssetHelper;
+
+
         public event OutputToConsoleHandler OutputToConsole;
         public event CommandOutput OnCommandOutput;
 
-        protected Injected<IContentTypeRepository> _trepo { get; set; }
-        protected Injected<IContentRepository> _crepo { get; set; }
+        public ImportAssetCommand(IContentRepository contentRepository, IContentTypeRepository contentTypeRepository, ContentMediaResolver contentMediaResolver, IBlobFactory blobFactory, ContentAssetHelper contentAssetHelper)
+        {
+            _repo = contentRepository;
+            _trepo = contentTypeRepository;
+            _mresolver = contentMediaResolver;
+            _blobFactory = blobFactory;
+            _contentAssetHelper = contentAssetHelper;
 
-        protected Injected<ContentMediaResolver> _mresolver { get; set; }
-
-        protected Injected<IBlobFactory> _blobFactory { get; set; }
-
-        protected Injected<ContentAssetHelper> _contentAssetHelper { get; set; }
+        }
 
         protected string DownloadAsset(string url)
         {
@@ -47,14 +55,14 @@ namespace CodeArt.Episerver.DevConsole.Commands
                 byte[] asset = wc.DownloadData(url);
 
                 string ext = Path.GetExtension(url);
-                var ctype = _mresolver.Service.GetFirstMatching(ext);
-                ContentType contentType = _trepo.Service.Load(ctype);
+                var ctype = _mresolver.GetFirstMatching(ext);
+                ContentType contentType = _trepo.Load(ctype);
 
                 //TODO: Support destination that should be resolved.
-                var assetFile = _crepo.Service.GetDefault<MediaData>(SiteDefinition.Current.GlobalAssetsRoot, contentType.ID);
+                var assetFile = _repo.GetDefault<MediaData>(SiteDefinition.Current.GlobalAssetsRoot, contentType.ID);
                 assetFile.Name = Path.GetFileName(url);
 
-                var blob = _blobFactory.Service.CreateBlob(assetFile.BinaryDataContainer, ext);
+                var blob = _blobFactory.CreateBlob(assetFile.BinaryDataContainer, ext);
                 using (var s = blob.OpenWrite())
                 {
                     var w = new StreamWriter(s);
@@ -62,7 +70,7 @@ namespace CodeArt.Episerver.DevConsole.Commands
                     w.Flush();
                 }
                 assetFile.BinaryData = blob;
-                var assetContentRef = _crepo.Service.Save(assetFile, SaveAction.Publish);
+                var assetContentRef = _repo.Save(assetFile, SaveAction.Publish);
 
                 OnCommandOutput?.Invoke(this, assetContentRef); //If piped, output the reference that was just created
             } catch(Exception exc)

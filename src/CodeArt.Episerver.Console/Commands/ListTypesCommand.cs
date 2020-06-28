@@ -17,14 +17,18 @@ namespace DeveloperTools.Console. Commands
     {
         public event CommandOutput OnCommandOutput;
 
-        
+        private readonly IContentTypeRepository _trepo;
+
+        public ListTypesCommand(IContentTypeRepository contentTypeRepository)
+        {
+            _trepo = contentTypeRepository;
+        }
+
         public string Execute(params string[] parameters)
         {
-            var repo = ServiceLocator.Current.GetInstance<IContentTypeRepository>();
             int cnt = 0;
             
-
-            foreach(var r in repo.List())
+            foreach(var r in _trepo.List())
             {
                 OnCommandOutput?.Invoke(this, r);
                 cnt++;

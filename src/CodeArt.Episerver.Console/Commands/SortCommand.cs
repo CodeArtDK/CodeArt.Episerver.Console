@@ -28,7 +28,7 @@ namespace CodeArt.Episerver.DevConsole.Commands
         {
             if (!(output is IEnumerable)) throw (new ApplicationException("Received input is not a list"));
             //TODO: Sort on a named field
-
+            
         }
     }
 }

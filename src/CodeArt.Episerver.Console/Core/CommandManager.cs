@@ -72,6 +72,8 @@ namespace CodeArt.Episerver.DevConsole.Core
             Commands = new Dictionary<string, ConsoleCommandDescriptor>();
             Log = new Dictionary<string, List<CommandLog>>();
             Tasks = new List<System.Threading.Tasks.Task>();
+
+            
         }
 
         public static string[] SplitArguments(string commandLine)
