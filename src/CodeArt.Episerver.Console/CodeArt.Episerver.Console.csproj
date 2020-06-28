@@ -246,9 +246,6 @@
     <None Include="packages.config" />
     <None Include="web.config.transform" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Commands\commandideas.txt" />
-  </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
