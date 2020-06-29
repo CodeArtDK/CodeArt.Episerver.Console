@@ -27,6 +27,12 @@ namespace CodeArt.Episerver.DevConsole.Commands
         [CommandParameter]
         public string Content { get; set; }
 
+        private readonly INotifier _notifier;
+
+        public NotifyCommand(INotifier notifier)
+        {
+            _notifier = notifier;
+        }
 
 
         public string Execute(params string[] parameters)
@@ -49,8 +55,6 @@ namespace CodeArt.Episerver.DevConsole.Commands
                 Subject = Subject,
                 Content = Content
             };
-            var _notifier = ServiceLocator.Current.GetInstance<INotifier>();
-
             _notifier.PostNotificationAsync(message).Wait();
             return "User notified";
         }

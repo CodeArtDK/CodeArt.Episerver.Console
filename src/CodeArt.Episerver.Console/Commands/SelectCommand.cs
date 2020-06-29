@@ -22,11 +22,10 @@ namespace CodeArt.Episerver.DevConsole.Commands
 
         public string Execute(params string[] parameters)
         {
-            
-
             return string.Empty;
         }
 
+        //TODO: Support multiple properties (comma-separated list) and deep object selects (period in object names)
         private void Source_OnCommandOutput(IOutputCommand sender, object output)
         {
             if (output is IContent)

@@ -20,7 +20,12 @@ namespace CodeArt.Episerver.DevConsole.Commands
     {
         public event CommandOutput OnCommandOutput;
 
-        protected Injected<IContentRepository> repo { get; set; }
+        private readonly IContentRepository _repo;
+
+        public LoadContentCommand(IContentRepository contentRepository)
+        {
+            _repo = contentRepository;
+        }
 
         public string Execute(params string[] parameters)
         {
@@ -29,7 +34,7 @@ namespace CodeArt.Episerver.DevConsole.Commands
                 foreach(var p in parameters)
                 {
                     ContentReference cr = ContentReference.Parse(p);
-                    var c = repo.Service.Get<IContent>(cr);
+                    var c = _repo.Get<IContent>(cr);
                     OnCommandOutput?.Invoke(this, c);
 
                 }
@@ -45,7 +50,7 @@ namespace CodeArt.Episerver.DevConsole.Commands
         private void Source_OnCommandOutput(IOutputCommand sender, object output)
         {
             ContentReference cr = (output.GetType() == typeof(ContentReference)) ? (ContentReference)output : ContentReference.Parse(output.ToString());
-            var c = repo.Service.Get<IContent>(cr);
+            var c = _repo.Get<IContent>(cr);
             OnCommandOutput?.Invoke(this, c);
         }
     }

@@ -11,7 +11,7 @@ using System.Web;
 
 namespace CodeArt.Episerver.DevConsole.Commands
 {
-    [Command(Keyword = "dump")]
+    [Command(Keyword = "dump", Description ="Dumps objects to console log")]
     public class DumpCommand : IInputCommand, IConsoleOutputCommand
     {
 
