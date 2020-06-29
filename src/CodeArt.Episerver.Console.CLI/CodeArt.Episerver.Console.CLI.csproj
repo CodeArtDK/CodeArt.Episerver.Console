@@ -5,6 +5,8 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <RootNamespace>CodeArt.Episerver.DevConsole.CLI</RootNamespace>
     <AssemblyName>DevConsoleCLI</AssemblyName>
+    <PublishSingleFile>True</PublishSingleFile>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
