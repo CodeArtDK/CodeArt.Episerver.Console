@@ -34,9 +34,13 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: CmdLine@2
+- task: ArchiveFiles@2
   inputs:
-    script: 'dir /S' 
+    rootFolderOrFile: 'src\CodeArt.Episerver.Console.CLI\bin\Release\netcoreapp3.1\'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/DevConsoleCLI.$(Build.BuildId).zip'
+    replaceExistingArchive: true
 
 #- task: VSTest@2
 #  inputs:
