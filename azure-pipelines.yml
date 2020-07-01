@@ -34,6 +34,9 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+- task: CmdLine@2
+  inputs:
+    script: 'dir /S' 
 
 #- task: VSTest@2
 #  inputs:
