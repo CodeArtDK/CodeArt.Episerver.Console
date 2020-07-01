@@ -64,18 +64,31 @@ namespace CodeArt.Episerver.DevConsole.CLI
         /// Runs the main program
         /// </summary>
         /// <param name="args">Using CommandLine parser. Endpoint and Token needed!</param>
-        [MTAThread] //TODO: Make multithreaded
+        [MTAThread] 
         static void Main(string[] args)
         {
-            if (args.Length != 2)
+            if (args.Length == 0)
             {
-                Console.WriteLine("Syntax: [Endpoint url] [Access Token]");
-                return;
+                Console.Write("Endpoint: ");
+                Endpoint = Console.ReadLine();
+            } else if(args.Length == 1)
+            {
+                if (args.First().ToLower() == "-help")
+                {
+                    Console.WriteLine("Syntax: DevConsoleCLI.exe [endpoint] [access token] [optional command]");
+                    return;
+                }
+                Endpoint = args[0];
+                Console.Write("Access Token: ");
+                Token = Console.ReadLine();
+            } else if (args.Length >= 2)
+            {
+                Endpoint = args[0];
+                Token = args[1];
             }
-            Endpoint = args[0];
-            Token = args[1];
-
-            Client = new RestClient(Endpoint);
+            Console.WriteLine($"Connecting to {Endpoint} with access token {Token}");
+            
+            Client = new RestClient(new Uri(new Uri(Endpoint),"CLI/"));
             Client.AddDefaultHeader("Authorization", "Bearer " + Token);
 
             var req = new RestRequest("Index", Method.GET);
@@ -85,7 +98,14 @@ namespace CodeArt.Episerver.DevConsole.CLI
                 Console.WriteLine("Unable to establish contact with endpoint. " + resp.ErrorMessage);
                 return;
             }
-            MainLoop();
+
+            if (args.Length > 2)
+            {
+                //A command is included
+                RunCommand(string.Join(" ", args.Skip(2).ToArray()));
+
+                
+            } else  MainLoop();
 
         }
     }

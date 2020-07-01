@@ -221,6 +221,8 @@
     <Compile Include="Commands\TakeCommand.cs" />
     <Compile Include="Core\ConsoleInit.cs" />
     <Compile Include="Interfaces\ILogAwareCommand.cs" />
+    <Compile Include="Macros\CommandMacro.cs" />
+    <Compile Include="Macros\CommandMacroStore.cs" />
     <Compile Include="Models\ConsoleModel.cs" />
     <Compile Include="Core\ConsoleMenuProvider.cs" />
     <Compile Include="Interfaces\IConsoleCommand.cs" />
