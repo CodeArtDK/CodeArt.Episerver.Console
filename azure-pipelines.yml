@@ -42,6 +42,14 @@ steps:
     archiveFile: '$(Build.ArtifactStagingDirectory)/DevConsoleCLI.$(Build.BuildId).zip'
     replaceExistingArchive: true
 
+- task: DotNetCoreCLI@2
+  inputs:
+    command: publish 
+    arguments: -r win-x64 -p:PublishSingleFile=True --self-contained false -o $(Build.ArtifactStagingDirectory)
+    projects: 'src\CodeArt.Episerver.Console.CLI/*.csproj'
+    publishWebProjects: false
+    enabled: true
+
 #- task: VSTest@2
 #  inputs:
 #    platform: '$(buildPlatform)'

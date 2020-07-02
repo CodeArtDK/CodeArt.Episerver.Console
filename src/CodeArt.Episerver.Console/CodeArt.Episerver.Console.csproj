@@ -191,6 +191,7 @@
     <Compile Include="Commands\ImportAssetCommand.cs" />
     <Compile Include="Commands\ListTypesCommand.cs" />
     <Compile Include="Commands\ListenCommand.cs" />
+    <Compile Include="Commands\ListUsersCommand.cs" />
     <Compile Include="Commands\LoadContentCommand.cs" />
     <Compile Include="Commands\ObjectCacheCommand.cs" />
     <Compile Include="Commands\SaveContentCommand.cs" />
