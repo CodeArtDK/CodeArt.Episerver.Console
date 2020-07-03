@@ -3,6 +3,7 @@ using CodeArt.Episerver.DevConsole.Interfaces;
 using EPiServer.Core;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +44,7 @@ namespace CodeArt.Episerver.DevConsole.Commands
                 var pi = output.GetType().GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.GetProperty).First(p => p.Name.ToLower() == Property.ToLower());
                 val=pi.GetValue(output);
             }
-            if(val is string)
+            if (val is string)
             {
                 bool result = true;
                 if (val == null && Operator != Operators.IsNull) result = false;
@@ -55,9 +56,10 @@ namespace CodeArt.Episerver.DevConsole.Commands
                 {
                     OnCommandOutput?.Invoke(this, output);
                 }
-            } else if(val is int)
+            }
+            else if (val is int)
             {
-                if((Operator==Operators.Equals && ((int)val)==int.Parse(Value)) ||
+                if ((Operator == Operators.Equals && ((int)val) == int.Parse(Value)) ||
                     (Operator == Operators.GreaterThan && ((int)val) > int.Parse(Value)) ||
                     (Operator == Operators.LessThan && ((int)val) < int.Parse(Value)) ||
                     (Operator == Operators.NotEquals && ((int)val) != int.Parse(Value)))
@@ -65,7 +67,19 @@ namespace CodeArt.Episerver.DevConsole.Commands
                     OnCommandOutput?.Invoke(this, output);
                 }
 
-            } //TODO: Support bool, decimal, double, datetime, complex objects?
+            }
+            else if (val is DateTime)
+            {
+                DateTime dt = DateTime.Parse(Value,CultureInfo.InvariantCulture);
+                if ((Operator == Operators.Equals && ((DateTime)val) == dt ||
+                    (Operator == Operators.GreaterThan && ((DateTime)val) > dt)) ||
+                    (Operator == Operators.LessThan && ((DateTime)val) < dt) ||
+                    (Operator == Operators.NotEquals && ((DateTime)val) != dt))
+                {
+                    OnCommandOutput?.Invoke(this, output);
+                }
+            }
+            //TODO: Support bool, decimal, double, complex objects?
             //TODO: Support Dictionaries and objects and strings?
         }
 
