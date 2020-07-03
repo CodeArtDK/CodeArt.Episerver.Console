@@ -111,10 +111,12 @@
                //Arrow up - if val is empty fill in last typed command. Otherwise it may be navigating in autocomplete?
                cmdpoint--;
                $('#command').val(cmdhistory[cmdpoint]);
+               return false;
            } else if (e.keyCode == 40) {
                //Arrow down - command history navigation
                cmdpoint++;
                $('#command').val(cmdhistory[cmdpoint]);
+               return false;
            } else if (e.keyCode == 190 && e.ctrlKey && suggestedcommand!=null) {
                //Tab, if there is a suggestedcommand, use it now.
                var cmd = $('#command').val();
