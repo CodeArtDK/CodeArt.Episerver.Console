@@ -21,7 +21,7 @@ namespace CodeArt.Episerver.DevConsole.Models
         }
         public override string ToString()
         {
-            return Time.ToShortTimeString() + " " + Sender + "> " + Text;
+            return Time.ToString("HH:mm:ss") + " " + Sender + "> " + Text;
         }
     }
 }

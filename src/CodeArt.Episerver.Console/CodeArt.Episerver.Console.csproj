@@ -203,6 +203,7 @@
     <Compile Include="Commands\ToJsonCommand.cs" />
     <Compile Include="Commands\ToListCommand.cs" />
     <Compile Include="Commands\ToLogCommand.cs" />
+    <Compile Include="Commands\ToStringCommand.cs" />
     <Compile Include="Controllers\CLIController.cs" />
     <Compile Include="Core\CLIUserRole.cs" />
     <Compile Include="Core\CommandJob.cs" />
