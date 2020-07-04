@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -58,8 +59,18 @@ namespace CodeArt.Episerver.Controllers
         public ActionResult RunCommand(string command, string session=null)
         {
             if (session == null) session = Guid.NewGuid().ToString();
-            _manager.ExecuteCommand(command,session);
-            return Json(new { Session = session }); //TODO: Support download
+            var rf=_manager.ExecuteCommand(command,session);
+            if (rf != null)
+            {
+                var cd = new System.Net.Mime.ContentDisposition
+                {
+                    FileName = rf.FileName,
+                    Inline = false
+                };
+                Response.AppendHeader("Content-Disposition", cd.ToString());
+                return File(rf.Data, "application/octet-stream" /*rf.Mimetype*/);
+            }
+            return Json(new { Success = true });
         }
     }
 }
