@@ -190,10 +190,12 @@
     <Compile Include="Commands\GetFriendlyUrlCommand.cs" />
     <Compile Include="Commands\GetSessionVarCommand.cs" />
     <Compile Include="Commands\ImportAssetCommand.cs" />
+    <Compile Include="Commands\ListActivitiesCommand.cs" />
     <Compile Include="Commands\ListTypesCommand.cs" />
     <Compile Include="Commands\ListenCommand.cs" />
     <Compile Include="Commands\ListUsersCommand.cs" />
     <Compile Include="Commands\LoadContentCommand.cs" />
+    <Compile Include="Commands\LoadLocalFileCommand.cs" />
     <Compile Include="Commands\ObjectCacheCommand.cs" />
     <Compile Include="Commands\SaveContentCommand.cs" />
     <Compile Include="Commands\SetPropertyCommand.cs" />
