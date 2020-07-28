@@ -100,7 +100,7 @@ namespace CodeArt.Episerver.DevConsole.Core
         }
 
 
-        public DownloadFile ExecuteCommand(string command, string session)
+        public TransferFile ExecuteCommand(string command, string session)
         {
             bool executeasync = false;
             CleanUp();
@@ -197,7 +197,7 @@ namespace CodeArt.Episerver.DevConsole.Core
                 ecommands.Add(ecmd);
             }
 
-            DownloadFile df = null;
+            TransferFile df = null;
             //Execute
 
             Action ExecuteCommands = () => {

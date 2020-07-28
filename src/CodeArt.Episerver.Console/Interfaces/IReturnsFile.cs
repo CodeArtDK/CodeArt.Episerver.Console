@@ -9,6 +9,6 @@ namespace CodeArt.Episerver.DevConsole.Interfaces
 {
     interface IReturnsFile
     {
-         DownloadFile File { get; }
+         TransferFile File { get; }
     }
 }

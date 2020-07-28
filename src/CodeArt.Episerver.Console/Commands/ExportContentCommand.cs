@@ -27,7 +27,7 @@ namespace CodeArt.Episerver.DevConsole.Commands
         [CommandParameter]
         public bool Recursive { get; set; }
 
-        public DownloadFile File { get; private set; }
+        public TransferFile File { get; private set; }
 
         public ExportContentCommand(IDataExporter exporter)
         {
@@ -42,7 +42,7 @@ namespace CodeArt.Episerver.DevConsole.Commands
                 _exporter.Export(ms, _contentList.Select(c => new ExportSource(c, (Recursive) ? ExportSource.RecursiveLevelInfinity : ExportSource.NonRecursive)).ToList());
                 while (!_exporter.Status.IsDone) Thread.Sleep(1000);
 
-                File = new DownloadFile();
+                File = new TransferFile();
                 File.FileName = "Export.episerverdata";
                 File.Mimetype = "application/octet-stream";
                 File.Data = ms.GetBuffer();

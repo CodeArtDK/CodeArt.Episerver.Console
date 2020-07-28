@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CodeArt.Episerver.DevConsole.Models
 {
-    public class DownloadFile
+    public class TransferFile
     {
         public string FileName { get; set; }
 

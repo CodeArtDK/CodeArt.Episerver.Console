@@ -40,6 +40,21 @@ namespace CodeArt.Episerver.DevConsole.CLI
             var q = new RestRequest("RunCommand", Method.POST);
             q.AddParameter("command", Command);
             q.AddParameter("session", Session);
+
+            if (Command.ToLower().StartsWith("upload"))
+            {
+                //Handle upload of file
+                string fn = Command.Split('|').First().Substring(6).Trim().Trim('"');
+                if (string.IsNullOrEmpty(fn))
+                {
+                    //Ask for filename
+                    Console.Write("File to upload: ");
+                    fn = Console.ReadLine();
+                }
+                q.AddParameter("data", Convert.ToBase64String(File.ReadAllBytes(fn)));
+                q.AddParameter("filename", Path.GetFileName(fn));
+            }
+
             var r = Client.Execute<dynamic>(q);
             if (Session == null) Session = (string) r.Data.Session;
             if(r.Data.ContainsKey("Filename"))

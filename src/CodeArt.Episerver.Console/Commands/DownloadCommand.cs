@@ -23,7 +23,7 @@ namespace CodeArt.Episerver.DevConsole.Commands
         [CommandParameter]
         public bool ShouldZip { get; set; }
 
-        public DownloadFile File { get; private set; }
+        public TransferFile File { get; private set; }
 
 
         protected List<string> contents { get; set; }
@@ -44,14 +44,14 @@ namespace CodeArt.Episerver.DevConsole.Commands
                 if (contents == null)
                 {
                     //Prepare file for download
-                    File = new DownloadFile();
+                    File = new TransferFile();
                     File.FileName = FileName ?? "test.txt";
                     File.Mimetype = Mimetype ?? "text/plain";
                     File.Data = UTF8Encoding.UTF8.GetBytes("This is a test text file");
                     return "No file provided as input. Test file generated.";
                 } else
                 {
-                    File = new DownloadFile();
+                    File = new TransferFile();
                     File.FileName = FileName ?? GenerateFileName();
                     File.Mimetype = Mimetype ?? "text/plain";
                     File.Data=UTF8Encoding.UTF8.GetBytes(string.Join("\n",contents.ToArray()));
@@ -83,7 +83,7 @@ namespace CodeArt.Episerver.DevConsole.Commands
         private void Source_OnCommandOutput(IOutputCommand sender, object output)
         {
             //TODO: Handle incoming files, strings, list of strings, byte-arrays
-            if (output is DownloadFile) File = output as DownloadFile;
+            if (output is TransferFile) File = output as TransferFile;
             else if(output is string)
             {
                 if (contents == null) contents = new List<string>();

@@ -197,6 +197,8 @@
     <Compile Include="Commands\LoadContentCommand.cs" />
     <Compile Include="Commands\LoadLocalFileCommand.cs" />
     <Compile Include="Commands\ObjectCacheCommand.cs" />
+    <Compile Include="Commands\ReadCsvFileCommand.cs" />
+    <Compile Include="Commands\ReadTextFileCommand.cs" />
     <Compile Include="Commands\SaveContentCommand.cs" />
     <Compile Include="Commands\SetPropertyCommand.cs" />
     <Compile Include="Commands\SetSessionVarCommand.cs" />
@@ -208,6 +210,7 @@
     <Compile Include="Commands\ToListCommand.cs" />
     <Compile Include="Commands\ToLogCommand.cs" />
     <Compile Include="Commands\ToStringCommand.cs" />
+    <Compile Include="Commands\UploadCommand.cs" />
     <Compile Include="Controllers\CLIController.cs" />
     <Compile Include="Core\CLIUserRole.cs" />
     <Compile Include="Core\CommandJob.cs" />

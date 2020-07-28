@@ -98,6 +98,8 @@
         var sessionid = null;
         var cmdpoint = 0;
         var suggestedcommand = null;
+
+
        $("#command").on('keyup', function (e) {
            if (e.keyCode == 13) {
 
@@ -106,7 +108,11 @@
                cmdpoint = cmdhistory.length;
                $('#log').append('<p class="myText">command&gt;' + cmd + '</p>');
                $('#command').val('');
-               $.post('@EPiServer.Shell.Paths.ToResource("CodeArt.Episerver.DevConsole","Console/RunCommand/")', { command: cmd, Session: sessionid },
+               var cmdobj = { command: cmd, Session: sessionid };
+               if (cmd.startsWith("upload")) {
+                   //TODO: expand with logic to get file and pass it in to controller
+               }
+               $.post('@EPiServer.Shell.Paths.ToResource("CodeArt.Episerver.DevConsole","Console/RunCommand/")', cmdobj,
                    function (data, status, xhr) {
                        //Handle file download
                         var filename = "";
