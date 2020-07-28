@@ -77,6 +77,18 @@ loadcontent 5|select -Property PageName|dump
 ```
 To only have the PageName written back to the console.
 
+## Downloading files
+It is possible to have command output returned as downloaded files - both in the CLI and in the browser based console.
+Simply pipe the output to the "download" command and provide the filename as a parameter.
+This command will for example download a csv file with all the pages that are descendents to page with ID 5:
+´´´
+listdescendents 5|select PageName PageTypeName PageCreated PageCreatedBy|tocsv|download -filename "pages.csv"
+´´´
+
+## Uploading files
+NOTE: This feature currently only works in the CLI, not in the browser.
+By starting with the "upload" command (and provide a file path as a parameter) you can upload a file and pass it in the pipe to other commands.
+
 
 ## Async commands
 If you have a command that you expect will take a long time to execute you might want to run it in a separate thread. To accomplish this, use the keyword "start" before the command line.
@@ -96,7 +108,17 @@ If you have a command that you expect will take a long time to execute you might
 As you use the browser based console and start typing commands, you will notice how the hint-box below suggests commands based on your input. If there is just one command suggested you can hit CTRL+. to use it. You can use arrows (up and down) to navigate previously entered commands.
 
 ## Using the CLI
-This section isn't ready yet.
+You can download the latest version of the CLI *[here](https://codeartdownload.z16.web.core.windows.net/CodeArt.Episerver.Console.CLI.zip)*
+Note, it requires .NET Core 3.1 runtime on your machine. Unzip the file and open up a command prompt.
+Before you can start using it, you have to go to the browser based developer console and create an access token.
+You do this, by calling the command "createaccesstoken". It will create and register a new access token and return it to you in the console. Make sure you copy it, as this is the only chance you will have (only a hashed version of the token is stored in Episerver).
+You can now start the CLI in your command prompt, by providing it with the endpoint and access token as parameters like this: 
+```
+DevConsoleCLI.exe http://localhost:61510/ 9nw1tZzURUyOYouCXCq0pQ==
+```
+Note: If you only want to run a single command, you can provide that command after the first two parameters.
+If you later want to manage your access tokens, you can use the "listaccesstokens" command and the "removeaccesstoken" command.
+
 
 ## Getting started with Commands
 You can easily extend with your own commands. All you have to do is implement one or more of these interfaces:
