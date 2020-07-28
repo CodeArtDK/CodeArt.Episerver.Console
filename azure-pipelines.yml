@@ -15,7 +15,7 @@ variables:
   solution: '**/CodeArt.Episerver.Console.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  majorMinorVersion: 0.1
+  majorMinorVersion: 0.2
   semanticVersion: $[counter(variables['majorMinorVersion'], 0)]
 
 steps:

@@ -12,8 +12,8 @@ using System.Threading.Tasks;
 
 namespace CodeArt.Episerver.DevConsole.Commands
 {
-    [Command(Keyword ="createcontent",Description ="Creates a new content element", Group =CommandGroups.CONTENT)]
-    public class CreateContentCommand : IConsoleCommand, IOutputCommand
+    [Command(Keyword ="createcontent",Description ="Creates a new content element. Can have a dictionary of values piped to it, which will then be set.", Group =CommandGroups.CONTENT)]
+    public class CreateContentCommand : IConsoleCommand, IOutputCommand, IInputCommand
     {
         public event CommandOutput OnCommandOutput;
 
@@ -53,6 +53,16 @@ namespace CodeArt.Episerver.DevConsole.Commands
             OnCommandOutput?.Invoke(this, content);
             return $"Content of type {ct.Name} created below {pref} and passed to the pipe.";
 
+        }
+
+        public void Initialize(IOutputCommand Source, params string[] parameters)
+        {
+            Source.OnCommandOutput += Source_OnCommandOutput;
+        }
+
+        private void Source_OnCommandOutput(IOutputCommand sender, object output)
+        {
+            
         }
     }
 }

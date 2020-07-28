@@ -15,5 +15,15 @@ namespace CodeArt.Episerver.DevConsole.Attributes
 
         public string Description { get; set; }
 
+        public CommandAttribute(string Keyword)
+        {
+            this.Keyword = Keyword;
+        }
+
+        public CommandAttribute()
+        {
+
+        }
+
     }
 }
