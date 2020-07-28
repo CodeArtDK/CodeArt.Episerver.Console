@@ -81,9 +81,9 @@ To only have the PageName written back to the console.
 It is possible to have command output returned as downloaded files - both in the CLI and in the browser based console.
 Simply pipe the output to the "download" command and provide the filename as a parameter.
 This command will for example download a csv file with all the pages that are descendents to page with ID 5:
-´´´
+```
 listdescendents 5|select PageName PageTypeName PageCreated PageCreatedBy|tocsv|download -filename "pages.csv"
-´´´
+```
 
 ## Uploading files
 NOTE: This feature currently only works in the CLI, not in the browser.
@@ -108,7 +108,7 @@ If you have a command that you expect will take a long time to execute you might
 As you use the browser based console and start typing commands, you will notice how the hint-box below suggests commands based on your input. If there is just one command suggested you can hit CTRL+. to use it. You can use arrows (up and down) to navigate previously entered commands.
 
 ## Using the CLI
-You can download the latest version of the CLI *[here](https://codeartdownload.z16.web.core.windows.net/CodeArt.Episerver.Console.CLI.zip)*
+You can download the latest version of the CLI **[here](https://codeartdownload.z16.web.core.windows.net/CodeArt.Episerver.Console.CLI.zip)**
 Note, it requires .NET Core 3.1 runtime on your machine. Unzip the file and open up a command prompt.
 Before you can start using it, you have to go to the browser based developer console and create an access token.
 You do this, by calling the command "createaccesstoken". It will create and register a new access token and return it to you in the console. Make sure you copy it, as this is the only chance you will have (only a hashed version of the token is stored in Episerver).
