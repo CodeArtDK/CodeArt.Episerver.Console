@@ -2,6 +2,8 @@
 using CodeArt.Episerver.DevConsole.CLI.Models;
 using RestSharp;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace CodeArt.Episerver.DevConsole.CLI
@@ -38,9 +40,33 @@ namespace CodeArt.Episerver.DevConsole.CLI
             var q = new RestRequest("RunCommand", Method.POST);
             q.AddParameter("command", Command);
             q.AddParameter("session", Session);
+
+            if (Command.ToLower().StartsWith("upload"))
+            {
+                //Handle upload of file
+                string fn = Command.Split('|').First().Substring(6).Trim().Trim('"');
+                if (string.IsNullOrEmpty(fn))
+                {
+                    //Ask for filename
+                    Console.Write("File to upload: ");
+                    fn = Console.ReadLine();
+                }
+                q.AddParameter("data", Convert.ToBase64String(File.ReadAllBytes(fn)));
+                q.AddParameter("filename", Path.GetFileName(fn));
+            }
+
             var r = Client.Execute<dynamic>(q);
-            //TODO: Handle potential downloaded file
-            if (Session == null) Session = r.Data.Session;
+            if (Session == null) Session = (string) r.Data.Session;
+            if(r.Data.ContainsKey("Filename"))
+            {
+                string fn = (string) r.Data["Filename"];
+                byte[] data = Convert.FromBase64String((string) r.Data["Data"]);
+                using (FileStream fs = File.Create(fn))
+                {
+                    fs.Write(data, 0, data.Length);
+                }
+                Console.WriteLine("File downloaded: " + fn);
+            }
         }
 
         static void MainLoop()

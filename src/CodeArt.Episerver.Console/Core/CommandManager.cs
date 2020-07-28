@@ -100,7 +100,7 @@ namespace CodeArt.Episerver.DevConsole.Core
         }
 
 
-        public void ExecuteCommand(string command, string session)
+        public TransferFile ExecuteCommand(string command, string session)
         {
             bool executeasync = false;
             CleanUp();
@@ -188,16 +188,16 @@ namespace CodeArt.Episerver.DevConsole.Core
                 if(ecommands.Count>0 && !(ecmd.Command is IInputCommand))
                 {
                     AddLogToSession(session, new CommandLog("System", "You cannot pipe content to that command"));
-                    return;
+                    return null;
                 } else if(commands.Length>1 && ecommands.Count==0 && !(ecmd.Command is IOutputCommand))
                 {
                     AddLogToSession(session, new CommandLog("System", "You cannot pipe content from that command"));
-                    return;
+                    return null;
                 }
                 ecommands.Add(ecmd);
             }
 
-
+            TransferFile df = null;
             //Execute
 
             Action ExecuteCommands = () => {
@@ -207,7 +207,8 @@ namespace CodeArt.Episerver.DevConsole.Core
                     {
                         var exec = ec.Command.Execute(ec.Parameters);
                         if (!string.IsNullOrEmpty(exec)) AddLogToSession(session, new CommandLog(ec.Command.GetType().Name, exec));
-
+                        if (ec.Command is IReturnsFile)
+                            df = (ec.Command as IReturnsFile).File;
                     }
                     catch (Exception exc)
                     {
@@ -226,8 +227,8 @@ namespace CodeArt.Episerver.DevConsole.Core
 
             }
             else ExecuteCommands();
-            
 
+            return df;
         }
 
     }
