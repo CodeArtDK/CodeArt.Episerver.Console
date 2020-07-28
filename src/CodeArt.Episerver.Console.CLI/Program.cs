@@ -39,6 +39,7 @@ namespace CodeArt.Episerver.DevConsole.CLI
             q.AddParameter("command", Command);
             q.AddParameter("session", Session);
             var r = Client.Execute<dynamic>(q);
+            //TODO: Handle potential downloaded file
             if (Session == null) Session = r.Data.Session;
         }
 
