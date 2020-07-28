@@ -66,7 +66,19 @@ namespace CodeArt.Episerver.DevConsole.Commands
 
         private void Source_OnCommandOutput(IOutputCommand sender, object output)
         {
-            if (Content != null) Content = output.ToString();
+            if(output is IDictionary<string, object>)
+            {
+                var dic = output as IDictionary<string, object>;
+                if (ChannelName == null && dic.ContainsKey("ChannelName")) ChannelName = dic["ChannelName"].ToString();
+                if (NotificationType == null && dic.ContainsKey("NotificationType")) ChannelName = dic["NotificationType"].ToString();
+                if (Sender == null && dic.ContainsKey("Sender")) ChannelName = dic["Sender"].ToString();
+                if (Recipient == null && dic.ContainsKey("Recipient")) ChannelName = dic["Recipient"].ToString();
+                if (Subject == null && dic.ContainsKey("Subject")) ChannelName = dic["Subject"].ToString();
+                if (Content == null && dic.ContainsKey("Content")) ChannelName = dic["Content"].ToString();
+
+
+            }
+            else if (Content != null) Content = output.ToString();
         }
     }
 }
