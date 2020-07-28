@@ -38,8 +38,13 @@ namespace CodeArt.Episerver.DevConsole.Controllers
         public ActionResult RunCommand(string command, string session = null)
         {
             if (session == null) session = Guid.NewGuid().ToString();
-            _manager.ExecuteCommand(command, session);
-            return Json(new { Session = session }); //TODO: Support download
+            var rf = _manager.ExecuteCommand(command, session);
+            if (rf != null)
+            {
+                string data=Convert.ToBase64String(rf.Data);
+                string filename = rf.FileName;
+                return Json(new { Success = true, Session = session, Filename = filename, Data = data });
+            } else return Json(new { Success = true, Session=session });
         }
 
         public ActionResult Index()

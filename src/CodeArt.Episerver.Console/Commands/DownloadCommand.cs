@@ -20,8 +20,8 @@ namespace CodeArt.Episerver.DevConsole.Commands
         public string Mimetype { get; set; }
 
 
-        //TODO: ShouldZip using https://stackoverflow.com/questions/681827/how-to-create-and-fill-a-zip-file-using-asp-net
-
+        [CommandParameter]
+        public bool ShouldZip { get; set; }
 
         public DownloadFile File { get; private set; }
 
@@ -57,6 +57,11 @@ namespace CodeArt.Episerver.DevConsole.Commands
                     File.Data=UTF8Encoding.UTF8.GetBytes(string.Join("\n",contents.ToArray()));
                     
                 }
+            }
+            if (ShouldZip)
+            {
+                //Zip file using https://stackoverflow.com/questions/681827/how-to-create-and-fill-a-zip-file-using-asp-net
+                return "Zip functionality not yet included";
             }
             return "File returned as download";
         }

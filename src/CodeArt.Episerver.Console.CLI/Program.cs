@@ -2,6 +2,8 @@
 using CodeArt.Episerver.DevConsole.CLI.Models;
 using RestSharp;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace CodeArt.Episerver.DevConsole.CLI
@@ -39,7 +41,17 @@ namespace CodeArt.Episerver.DevConsole.CLI
             q.AddParameter("command", Command);
             q.AddParameter("session", Session);
             var r = Client.Execute<dynamic>(q);
-            if (Session == null) Session = r.Data.Session;
+            if (Session == null) Session = (string) r.Data.Session;
+            if(r.Data.ContainsKey("Filename"))
+            {
+                string fn = (string) r.Data["Filename"];
+                byte[] data = Convert.FromBase64String((string) r.Data["Data"]);
+                using (FileStream fs = File.Create(fn))
+                {
+                    fs.Write(data, 0, data.Length);
+                }
+                Console.WriteLine("File downloaded: " + fn);
+            }
         }
 
         static void MainLoop()
