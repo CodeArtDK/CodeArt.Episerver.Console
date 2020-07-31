@@ -192,6 +192,7 @@
     <Compile Include="Commands\GetSessionVarCommand.cs" />
     <Compile Include="Commands\ImportAssetCommand.cs" />
     <Compile Include="Commands\ListActivitiesCommand.cs" />
+    <Compile Include="Commands\ListNugetCommand.cs" />
     <Compile Include="Commands\ListTypesCommand.cs" />
     <Compile Include="Commands\ListenCommand.cs" />
     <Compile Include="Commands\ListUsersCommand.cs" />
