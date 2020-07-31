@@ -201,12 +201,14 @@
     <Compile Include="Commands\ReadCsvFileCommand.cs" />
     <Compile Include="Commands\ReadTextFileCommand.cs" />
     <Compile Include="Commands\SaveContentCommand.cs" />
+    <Compile Include="Commands\SendEmailCommand.cs" />
     <Compile Include="Commands\SetPropertyCommand.cs" />
     <Compile Include="Commands\SetSessionVarCommand.cs" />
     <Compile Include="Commands\SitesCommand.cs" />
     <Compile Include="Commands\SortCommand.cs" />
     <Compile Include="Commands\TestWaitCommand.cs" />
     <Compile Include="Commands\ToCsvCommand.cs" />
+    <Compile Include="Commands\ToFileCommand.cs" />
     <Compile Include="Commands\ToJsonCommand.cs" />
     <Compile Include="Commands\ToListCommand.cs" />
     <Compile Include="Commands\ToLogCommand.cs" />
