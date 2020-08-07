@@ -56,6 +56,12 @@ namespace CodeArt.Episerver.DevConsole.Commands
                     OutputToConsole?.Invoke(this, "\t" + kvp.Key + ": " + HttpUtility.HtmlEncode(kvp.Value));
 
                 }
+            } else if(output is IDictionary)
+            {
+                foreach (var kvp in ((IDictionary)output).Keys)
+                {
+                    OutputToConsole?.Invoke(this, "\t" + kvp + ":" + HttpUtility.HtmlEncode(((IDictionary)output)[kvp]));
+                }
             }
             else if (output is IList)
             {

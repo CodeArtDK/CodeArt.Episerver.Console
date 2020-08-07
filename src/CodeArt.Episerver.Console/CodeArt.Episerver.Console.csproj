@@ -207,6 +207,7 @@
     <Compile Include="Commands\SetSessionVarCommand.cs" />
     <Compile Include="Commands\SitesCommand.cs" />
     <Compile Include="Commands\SortCommand.cs" />
+    <Compile Include="Commands\SummarizeCommand.cs" />
     <Compile Include="Commands\TestWaitCommand.cs" />
     <Compile Include="Commands\ToCsvCommand.cs" />
     <Compile Include="Commands\ToFileCommand.cs" />
