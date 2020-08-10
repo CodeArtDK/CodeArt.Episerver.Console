@@ -115,7 +115,7 @@ namespace CodeArt.Episerver.DevConsole.CLI
             }
             Console.WriteLine($"Connecting to {Endpoint} with access token {Token}");
             
-            Client = new RestClient(new Uri(new Uri(Endpoint),"CLI/"));
+            Client = new RestClient(new Uri(new Uri(Endpoint), "api/DeveloperConsole/CLI/"));
             Client.AddDefaultHeader("Authorization", "Bearer " + Token);
 
             var req = new RestRequest("Index", Method.GET);
