@@ -235,6 +235,7 @@
     <Compile Include="Commands\StartCommand.cs" />
     <Compile Include="Commands\TakeCommand.cs" />
     <Compile Include="Core\ConsoleInit.cs" />
+    <Compile Include="Initialization\DeveloperConsoleInit.cs" />
     <Compile Include="Interfaces\ILogAwareCommand.cs" />
     <Compile Include="Interfaces\IReturnsFile.cs" />
     <Compile Include="Macros\CommandMacro.cs" />
