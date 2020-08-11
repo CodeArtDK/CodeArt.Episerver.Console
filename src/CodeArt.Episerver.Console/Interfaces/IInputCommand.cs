@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CodeArt.Episerver.DevConsole.Interfaces
 {
-    interface IInputCommand : IConsoleCommand
+    public interface IInputCommand : IConsoleCommand
     {
         void Initialize(IOutputCommand Source, params string[] parameters);
     }

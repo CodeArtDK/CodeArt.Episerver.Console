@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CodeArt.Episerver.DevConsole.Interfaces
 {
-    interface IReturnsFile
+    public interface IReturnsFile
     {
          TransferFile File { get; }
     }
