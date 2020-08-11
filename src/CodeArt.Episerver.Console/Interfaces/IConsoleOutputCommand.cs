@@ -9,7 +9,7 @@ namespace CodeArt.Episerver.DevConsole.Interfaces
     /// <summary>
     /// Use this for commands that outputs to console
     /// </summary>
-    interface IConsoleOutputCommand
+    public interface IConsoleOutputCommand
     {
         event OutputToConsoleHandler OutputToConsole;
     }

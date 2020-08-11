@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CodeArt.Episerver.DevConsole.Interfaces
 {
-    interface ILogAwareCommand
+    public interface ILogAwareCommand
     {
         List<CommandLog> Log { get; set; }
     }

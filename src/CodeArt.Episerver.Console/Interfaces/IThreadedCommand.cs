@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CodeArt.Episerver.DevConsole.Interfaces
 {
-    interface IThreadedCommand : IConsoleCommand
+    public interface IThreadedCommand : IConsoleCommand
     {
     }
 }
