@@ -223,7 +223,7 @@
        function RefreshLog() {
            $.getJSON('/api/DeveloperConsole/Web/FetchLog/', { LastLogNo: last, Session:sessionid }, function (data) {
                last = data.LastNo;
-               session = data.Session;
+               sessionid = data.Session;
                $.each(data.LogItems, function (idx, val) {
                    $('#log').append('<p class="logText">'+val + '</p>');
                })

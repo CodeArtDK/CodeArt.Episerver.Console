@@ -49,7 +49,7 @@ namespace CodeArt.Episerver.Controllers
 
         public ActionResult FetchLog(int LastLogNo, string session=null)
         {
-            if (session == null) session = Guid.NewGuid().ToString();
+            if (string.IsNullOrEmpty(session)) session = Guid.NewGuid().ToString();
             var lst = _manager.GetLogs(session).Skip(LastLogNo).Take(100).ToList();
             return Json(new { LastNo = LastLogNo + lst.Count, LogItems = lst.Select(l => l.ToString().Replace("\t","&nbsp;&nbsp;")).ToList(), Session=session }, JsonRequestBehavior.AllowGet);
         }
@@ -58,7 +58,6 @@ namespace CodeArt.Episerver.Controllers
         [ValidateInput(false)]
         public ActionResult RunCommand(string command, string session=null)
         {
-            if (session == null) session = Guid.NewGuid().ToString();
             var rf=_manager.ExecuteCommand(command,session);
             if (rf != null)
             {

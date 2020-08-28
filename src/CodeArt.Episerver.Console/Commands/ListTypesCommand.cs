@@ -19,6 +19,7 @@ namespace DeveloperTools.Console. Commands
 
         private readonly IContentTypeRepository _trepo;
 
+        
         public ListTypesCommand(IContentTypeRepository contentTypeRepository)
         {
             _trepo = contentTypeRepository;

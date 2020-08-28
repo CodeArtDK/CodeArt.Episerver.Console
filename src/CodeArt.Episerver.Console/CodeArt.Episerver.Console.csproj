@@ -183,6 +183,7 @@
     <Compile Include="Commands\AddToDictionaryCommand.cs" />
     <Compile Include="Commands\AppSettingsCommand.cs" />
     <Compile Include="Commands\AssembliesCommand.cs" />
+    <Compile Include="Commands\ContentModelUsageCommand.cs" />
     <Compile Include="Commands\CopyContentCommand.cs" />
     <Compile Include="Commands\CountCommand.cs" />
     <Compile Include="Commands\CreateContentCommand.cs" />
