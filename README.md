@@ -117,7 +117,7 @@ You can now start the CLI in your command prompt, by providing it with the endpo
 DevConsoleCLI.exe http://localhost:61510/ 9nw1tZzURUyOYouCXCq0pQ==
 ```
 Note: If you only want to run a single command, you can provide that command after the first two parameters.
-If you later want to manage your access tokens, you can use the "listaccesstokens" command and the "removeaccesstoken" command.
+If you later want to manage your access tokens, you can use the "listaccesstoken" command and the "removeaccesstoken" command.
 
 
 ## Getting started with Commands
