@@ -29,11 +29,16 @@ namespace DeveloperTools.Console. Commands
         public string Execute(params string[] parameters)
         {
             int cnt = 0;
+            if (string.IsNullOrEmpty(Parent) && parameters.Any()) Parent = parameters.First();
+
             ContentReference start = ContentReference.StartPage;
+
             if (!string.IsNullOrEmpty(Parent))
             {
                 if (Parent.ToLower() == "root") start = ContentReference.RootPage;
-                start = ContentReference.Parse(Parent);
+                else if (Parent.ToLower() == "globalblocks") start = ContentReference.GlobalBlockFolder;
+                else if (Parent.ToLower() == "siteblocks") start = ContentReference.SiteBlockFolder;
+                else start = ContentReference.Parse(Parent);
             }
 
             foreach(var r in _repo.GetDescendents(start))

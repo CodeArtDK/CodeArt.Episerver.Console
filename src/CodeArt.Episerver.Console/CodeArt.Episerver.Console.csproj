@@ -5,6 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{906B2C76-7992-40D5-AD32-DF3941CB1D72}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CodeArt.Episerver.DevConsole</RootNamespace>
@@ -12,6 +13,18 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>15.0</OldToolsVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -183,7 +196,9 @@
     <Compile Include="Commands\AddToDictionaryCommand.cs" />
     <Compile Include="Commands\AppSettingsCommand.cs" />
     <Compile Include="Commands\AssembliesCommand.cs" />
+    <None Include="Commands\ClearCacheCommand.cs" />
     <Compile Include="Commands\ContentModelUsageCommand.cs" />
+    <Compile Include="Commands\ContentUsageCommand.cs" />
     <Compile Include="Commands\CopyContentCommand.cs" />
     <Compile Include="Commands\CountCommand.cs" />
     <Compile Include="Commands\CreateContentCommand.cs" />
@@ -195,6 +210,7 @@
     <Compile Include="Commands\GetFriendlyUrlCommand.cs" />
     <Compile Include="Commands\GetSessionVarCommand.cs" />
     <Compile Include="Commands\ImportAssetCommand.cs" />
+    <Compile Include="Commands\IsCommand.cs" />
     <Compile Include="Commands\ListActivitiesCommand.cs" />
     <Compile Include="Commands\ListNugetCommand.cs" />
     <Compile Include="Commands\ListTypesCommand.cs" />
@@ -270,8 +286,34 @@
     <None Include="modules\_protected\Shell\Shell.zip" />
     <None Include="Nuget.config" />
     <None Include="packages.config" />
+    <Content Include="Web.config" />
     <None Include="web.config.transform" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v16.0\WebApplications\Microsoft.WebApplication.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:49203/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
