@@ -31,15 +31,21 @@ namespace CodeArt.Episerver.DevConsole.Core
         {
             var cmdMgr = ServiceLocator.Current.GetInstance<CommandManager>();
             var type = typeof(IConsoleCommand);
-            var types = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(s => s.GetTypes())
-                .Where(p => type.IsAssignableFrom(p) && !p.IsInterface);
-
-            foreach(var t in types)
+            try
             {
-                var ccd = new ConsoleCommandDescriptor(t);
-                //TODO: Make resilient to duplicates?
-                cmdMgr.Commands.Add(ccd.Keyword.ToLower(), ccd);
+                var types = AppDomain.CurrentDomain.GetAssemblies()
+                    .SelectMany(s => s.GetTypes())
+                    .Where(p => type.IsAssignableFrom(p) && !p.IsInterface);
+
+                foreach (var t in types)
+                {
+                    var ccd = new ConsoleCommandDescriptor(t);
+                    //TODO: Make resilient to duplicates?
+                    cmdMgr.Commands.Add(ccd.Keyword.ToLower(), ccd);
+                }
+            } catch(Exception exc)
+            {
+                //For now, do nothing. Potentially output it
             }
         }
 
