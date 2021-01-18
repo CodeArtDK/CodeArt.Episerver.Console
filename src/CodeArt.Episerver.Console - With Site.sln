@@ -15,6 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeArt.Episerver.Console.Find", "CodeArt.Episerver.Console.Find\CodeArt.Episerver.Console.Find.csproj", "{CE845D97-5D9A-477C-BB4B-7C8800EC148D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeArt.Episerver.Console.Forms", "CodeArt.Episerver.Console.Forms\CodeArt.Episerver.Console.Forms.csproj", "{0C0A3232-9706-4C2A-98E0-C3D938CDA8F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{2D6C5ABF-F8FF-47E1-BB2B-68644361FBA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D6C5ABF-F8FF-47E1-BB2B-68644361FBA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D6C5ABF-F8FF-47E1-BB2B-68644361FBA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE845D97-5D9A-477C-BB4B-7C8800EC148D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE845D97-5D9A-477C-BB4B-7C8800EC148D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE845D97-5D9A-477C-BB4B-7C8800EC148D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE845D97-5D9A-477C-BB4B-7C8800EC148D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C0A3232-9706-4C2A-98E0-C3D938CDA8F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C0A3232-9706-4C2A-98E0-C3D938CDA8F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C0A3232-9706-4C2A-98E0-C3D938CDA8F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C0A3232-9706-4C2A-98E0-C3D938CDA8F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>CodeArt.Episerver.Console.Forms</id>
+    <version>$version$</version>
+    <title>CodeArts Developer Console (EXPERIMENTAL) - Forms Support</title>
+    <authors>CodeArt</authors>
+    <owners>CodeArt</owners>
+    <projectUrl>https://github.com/CodeArtDK/CodeArt.Episerver.Console</projectUrl>
+    <iconUrl>https://www.codeart.dk/favicon.ico</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>EXPERIMENTAL! A developer console, where developers can execute commands on their Episerver</description>
+    <tags>Episerver Developer Tools DeveloperTools Console cli</tags>
+  </metadata>
+</package>
