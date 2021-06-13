@@ -194,6 +194,7 @@
     <Compile Include="Attributes\CommandParameterAttribute.cs" />
     <Compile Include="Commands\ActiveTasksCommand.cs" />
     <Compile Include="Commands\AddToDictionaryCommand.cs" />
+    <Compile Include="Commands\AddToProjectCommand.cs" />
     <Compile Include="Commands\AppSettingsCommand.cs" />
     <Compile Include="Commands\AssembliesCommand.cs" />
     <None Include="Commands\ClearCacheCommand.cs" />
@@ -207,6 +208,7 @@
     <Compile Include="Commands\EchoCommand.cs" />
     <Compile Include="Commands\ExportContentCommand.cs" />
     <Compile Include="Commands\ForEachCommand.cs" />
+    <Compile Include="Commands\ListContentFromPropertiesCommand.cs" />
     <Compile Include="Commands\GetFriendlyUrlCommand.cs" />
     <Compile Include="Commands\GetSessionVarCommand.cs" />
     <Compile Include="Commands\ImportAssetCommand.cs" />
